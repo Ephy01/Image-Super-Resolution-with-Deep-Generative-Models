@@ -1,0 +1,32 @@
+{
+  "images": 340,
+  "images_per_content_and_split": {
+    "faces": {
+      "dev": 20,
+      "test": 100
+    },
+    "objects": {
+      "dev": 20,
+      "test": 80
+    },
+    "text": {
+      "dev": 24,
+      "test": 96
+    }
+  },
+  "hr_size": 512,
+  "lr_size": 128,
+  "jpeg_qualities": [
+    "none",
+    50,
+    30,
+    10
+  ],
+  "lr_images": 1360,
+  "leakage_check": {
+    "shared_sources": 0,
+    "shared_texts": 0
+  },
+  "split": "by source image; dev and test text rendered with different seeds",
+  "seed": 42
+}

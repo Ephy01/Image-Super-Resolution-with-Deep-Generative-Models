@@ -1,0 +1,16 @@
+# data preparation
+numpy==2.5.4
+pillow==12.3.0
+pandas==3.0.6
+requests==2.34.2
+tqdm==4.70.1
+matplotlib==3.11.2
+# models
+torch==2.14.1
+torchvision==0.29.1
+# evaluation
+opencv-python-headless==5.0.0.93
+lpips==0.1.4
+tabulate==0.10.0
+# notebooks
+jupyter
