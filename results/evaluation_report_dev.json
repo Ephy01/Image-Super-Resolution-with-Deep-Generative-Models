@@ -1,0 +1,9 @@
+{
+  "split": "dev",
+  "images": 64,
+  "rows": 512,
+  "psnr_ssim": "Y channel (BT.601), 4-pixel border crop",
+  "lpips": "AlexNet",
+  "confidence_interval": "95% bootstrap half-width, 10000 resamples",
+  "seed": 42
+}

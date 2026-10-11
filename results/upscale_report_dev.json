@@ -1,0 +1,28 @@
+{
+  "split": "dev",
+  "device": "Apple GPU (MPS), arm",
+  "torch": "2.14.1",
+  "precision": "float32",
+  "batch_size": 1,
+  "input_size": 128,
+  "output_size": 512,
+  "realesrnet_config": {
+    "weights": "RealESRNet_x4plus.pth",
+    "num_feat": 64,
+    "num_block": 23,
+    "num_grow_ch": 32
+  },
+  "realesrnet_parameters": 16697987,
+  "methods": {
+    "bicubic": {
+      "images": 256,
+      "seconds_per_image_mean": 0.000834736003852754,
+      "seconds_per_image_median": 0.0008407499990426004
+    },
+    "realesrnet": {
+      "images": 256,
+      "seconds_per_image_mean": 0.2692548865820612,
+      "seconds_per_image_median": 0.2621988334994967
+    }
+  }
+}
