@@ -9,3 +9,4 @@ data/processed/hr/
 data/processed/lr/
 models/*.pth
 outputs/
+reports/*.md

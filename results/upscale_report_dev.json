@@ -16,13 +16,13 @@
   "methods": {
     "bicubic": {
       "images": 256,
-      "seconds_per_image_mean": 0.000834736003852754,
-      "seconds_per_image_median": 0.0008407499990426004
+      "seconds_per_image_mean": 0.0008447163125993029,
+      "seconds_per_image_median": 0.0008440619985776721
     },
     "realesrnet": {
       "images": 256,
-      "seconds_per_image_mean": 0.2692548865820612,
-      "seconds_per_image_median": 0.2621988334994967
+      "seconds_per_image_mean": 0.28079478061331997,
+      "seconds_per_image_median": 0.28217043750009907
     }
   }
 }
