@@ -1,28 +1,36 @@
 {
   "split": "dev",
-  "device": "Apple GPU (MPS), arm",
-  "torch": "2.14.1",
+  "device": "NVIDIA GeForce RTX 3080 Ti Laptop GPU",
+  "torch": "2.11.0+cu128",
   "precision": "float32",
   "batch_size": 1,
   "input_size": 128,
   "output_size": 512,
-  "realesrnet_config": {
-    "weights": "RealESRNet_x4plus.pth",
+  "rrdbnet_config": {
     "num_feat": 64,
     "num_block": 23,
     "num_grow_ch": 32
   },
-  "realesrnet_parameters": 16697987,
+  "rrdbnet_weights": {
+    "realesrnet": "RealESRNet_x4plus.pth",
+    "realesrgan": "RealESRGAN_x4plus.pth"
+  },
+  "rrdbnet_parameters": 16697987,
   "methods": {
     "bicubic": {
       "images": 256,
-      "seconds_per_image_mean": 0.0008447163125993029,
-      "seconds_per_image_median": 0.0008440619985776721
+      "seconds_per_image_mean": 0.001816633203128859,
+      "seconds_per_image_median": 0.0015780999999606138
     },
     "realesrnet": {
       "images": 256,
-      "seconds_per_image_mean": 0.28079478061331997,
-      "seconds_per_image_median": 0.28217043750009907
+      "seconds_per_image_mean": 0.1115026566406403,
+      "seconds_per_image_median": 0.11038510000003043
+    },
+    "realesrgan": {
+      "images": 256,
+      "seconds_per_image_mean": 0.11181742031248376,
+      "seconds_per_image_median": 0.11157554999999775
     }
   }
 }

@@ -17,7 +17,7 @@ from upscale import METHODS, OUTPUTS_DIR, RESULTS_DIR
 FIGURES_DIR = RESULTS_DIR / "figures"
 CONTENTS = ["objects", "faces", "text"]
 METRIC_LABELS = {"psnr": "PSNR (dB), higher is better", "ssim": "SSIM, higher is better", "lpips": "LPIPS, lower is better"}
-METHOD_LABELS = {"bicubic": "Bicubic", "realesrnet": "Real-ESRNet"}
+METHOD_LABELS = {"bicubic": "Bicubic", "realesrnet": "Real-ESRNet", "realesrgan": "Real-ESRGAN"}
 EXAMPLE_QUALITIES = ["none", 10]
 CROP = (128, 128, 384, 384)
 
@@ -41,7 +41,7 @@ def plot_jpeg_sweep(summary, split):
             if row == len(METRIC_LABELS) - 1:
                 axis.set_xlabel("JPEG quality of the input")
     axes[0, 0].legend()
-    figure.suptitle(f"Baselines on the {split} split (mean and 95% confidence interval)")
+    figure.suptitle(f"Baselines and Real-ESRGAN on the {split} split (mean and 95% confidence interval)")
     figure.tight_layout()
     figure.savefig(FIGURES_DIR / f"jpeg_sweep_{split}.png", dpi=150)
     plt.close(figure)
@@ -55,7 +55,7 @@ def plot_examples(manifest, split):
 
     for quality in EXAMPLE_QUALITIES:
         columns = ["Input (128x128)"] + [METHOD_LABELS[method] for method in METHODS] + ["Ground truth"]
-        figure, axes = plt.subplots(len(examples), len(columns), figsize=(12, 9.4))
+        figure, axes = plt.subplots(len(examples), len(columns), figsize=(15, 9.4))
         for row, example in enumerate(examples):
             low_resolution = Image.open(LR_DIR / f"jpeg_{quality}" / f"{example.image_id}.png")
             panels = [low_resolution.resize((512, 512), Image.NEAREST)]

@@ -161,7 +161,10 @@ def main(split="dev", seed=42):
     RESULTS_DIR.mkdir(exist_ok=True)
     metrics.to_csv(RESULTS_DIR / f"metrics_{split}.csv", index=False)
     summary.to_csv(RESULTS_DIR / f"summary_{split}.csv", index=False)
-    paired = compare_methods(metrics, "bicubic", "realesrnet", seed)
+    paired = pd.concat([
+        compare_methods(metrics, "bicubic", "realesrnet", seed),
+        compare_methods(metrics, "realesrnet", "realesrgan", seed),
+    ], ignore_index=True)
     paired.to_csv(RESULTS_DIR / f"paired_{split}.csv", index=False)
 
     report = {

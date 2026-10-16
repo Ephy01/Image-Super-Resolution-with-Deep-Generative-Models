@@ -20,9 +20,13 @@ MODELS_DIR = PROJECT_ROOT / "models"
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 RESULTS_DIR = PROJECT_ROOT / "results"
 
-METHODS = ["bicubic", "realesrnet"]
+METHODS = ["bicubic", "realesrnet", "realesrgan"]
+# Real-ESRNet and Real-ESRGAN share the RRDBNet generator and training data; only the loss differs.
+WEIGHTS = {
+    "realesrnet": "RealESRNet_x4plus.pth",
+    "realesrgan": "RealESRGAN_x4plus.pth",
+}
 MODEL_CONFIG = {
-    "weights": "RealESRNet_x4plus.pth",
     "num_feat": 64,
     "num_block": 23,
     "num_grow_ch": 32,
@@ -53,13 +57,13 @@ def synchronize(device):
         torch.mps.synchronize()
 
 
-def load_realesrnet(device):
+def load_rrdbnet(method, device):
     network = RRDBNet(
         num_feat=MODEL_CONFIG["num_feat"],
         num_block=MODEL_CONFIG["num_block"],
         num_grow_ch=MODEL_CONFIG["num_grow_ch"],
     )
-    checkpoint = torch.load(MODELS_DIR / MODEL_CONFIG["weights"], map_location="cpu", weights_only=True)
+    checkpoint = torch.load(MODELS_DIR / WEIGHTS[method], map_location="cpu", weights_only=True)
     state = checkpoint.get("params_ema", checkpoint.get("params", checkpoint))
     network.load_state_dict(state, strict=True)
     return network.eval().to(device)
@@ -71,7 +75,7 @@ def upscale_bicubic(image):
 
 
 @torch.inference_mode()
-def upscale_realesrnet(image, network, device):
+def upscale_rrdbnet(image, network, device):
     pixels = np.asarray(image, dtype=np.float32) / 255.0
     batch = torch.from_numpy(pixels).permute(2, 0, 1).unsqueeze(0).to(device)
     output = network(batch).clamp(0, 1)
@@ -81,12 +85,12 @@ def upscale_realesrnet(image, network, device):
 
 
 def run_method(method, image_ids, split, device):
-    network = load_realesrnet(device) if method == "realesrnet" else None
+    network = load_rrdbnet(method, device) if method in WEIGHTS else None
 
     def upscale(image):
         if method == "bicubic":
             return upscale_bicubic(image)
-        return upscale_realesrnet(image, network, device)
+        return upscale_rrdbnet(image, network, device)
 
     warmup_image = Image.open(LR_DIR / "jpeg_none" / f"{image_ids[0]}.png")
     for _ in range(WARMUP_IMAGES):
@@ -123,8 +127,9 @@ def main(split="dev", methods=METHODS):
         "batch_size": 1,
         "input_size": 512 // SCALE,
         "output_size": 512,
-        "realesrnet_config": MODEL_CONFIG,
-        "realesrnet_parameters": sum(p.numel() for p in RRDBNet().parameters()),
+        "rrdbnet_config": MODEL_CONFIG,
+        "rrdbnet_weights": WEIGHTS,
+        "rrdbnet_parameters": sum(p.numel() for p in RRDBNet().parameters()),
         "methods": {},
     }
     for method in methods:
