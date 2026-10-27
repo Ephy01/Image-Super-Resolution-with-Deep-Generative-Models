@@ -71,6 +71,10 @@ bash run_pipeline.sh
 
 `run_pipeline.sh` automates the pipeline stages configured in the script. To evaluate both dev and test splits, run the corresponding commands for each split as shown below. The pipeline includes the pinned ResShift implementation, checkpoint download, dataset preparation, upscaling, metric evaluation and figure generation. ResShift is substantially slower than the RRDBNet-based methods; runtime depends on the available accelerator. Each run may overwrite existing outputs and result tables.
 
+### Google Colab
+
+Due to limited local computational resources, the diffusion-based ResShift model was tested separately in Google Colab using an available GPU runtime. The other super-resolution methods were evaluated through the main project pipeline. Therefore, Google Colab was used specifically to run and evaluate ResShift, rather than to execute the entire pipeline.
+
 The steps can also be run one at a time:
 
 ```bash
