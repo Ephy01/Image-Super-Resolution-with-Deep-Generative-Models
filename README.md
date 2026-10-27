@@ -11,14 +11,18 @@ All models are pretrained. Nothing is trained in this project.
 | Stage | Status |
 |---|---|
 | Data loading and preprocessing | done |
-| Baselines: bicubic interpolation and Real-ESRNet | done, evaluated on dev and test splits |
-| GAN: Real-ESRGAN | done, evaluated on dev and test splits |
-| Diffusion: ResShift | integrated and evaluated on dev and test splits |
+| Baselines: bicubic interpolation and Real-ESRNet | done, original dev results retained |
+| GAN: Real-ESRGAN | done, original dev results retained |
+| Diffusion: ResShift | done, verified dev run in Colab |
 | PSNR, SSIM and LPIPS evaluation | done |
 | JPEG degradation sweep | done for quality none, 50, 30 and 10 |
-| Perceptual and task metrics (MUSIQ, OCR error rate, face identity) | later |
+| Perceptual and task metrics (MUSIQ, OCR error rate, face identity) | pending |
+| ResShift variability across sampling seeds | pending |
+| Final test evaluation with frozen settings | pending; earlier exploratory test run archived |
 
-Stage reports are in [`reports/`](reports/).
+Stage reports are in [`reports/`](reports/). The latest is [Stage 4: diffusion and project progress](reports/stage4_diffusion.pdf).
+
+The current comparison combines the original baseline results from `896fe8c` with a ResShift-only Colab run on the exact same archived dev inputs. The earlier all-method Colab test results are preserved under [`results/legacy_colab/`](results/legacy_colab/) as exploratory results. The test split has already been accessed; it must not be described as untouched.
 
 ## Data
 
@@ -54,13 +58,13 @@ There is no training split: all restoration models use pretrained weights. The d
 
 1. `download_data.py`: `download_div2k` → `choose_face_ids` → `download_faces` → `download_weights`.
 2. `prepare_data.py`: `build_objects` (`crop_center`) → `build_faces` → `build_text` (`render_text_set` from `render_text.py`) → `make_low_resolution` (`compress_jpeg`) → `check_leakage` → save the manifest and the report.
-3. `upscale.py`: `pick_device` → load RRDBNet or ResShift → `run_method` (`upscale_bicubic`, `upscale_rrdbnet`, `ResShiftModel.upscale`) → save outputs and the report.
+3. `upscale.py`: `pick_device` → load RRDBNet or ResShift → `run_method` (`upscale_bicubic`, `upscale_rrdbnet`, `ResShift.upscale`) → save outputs and the report.
 4. `evaluate.py`: `check_metrics` → `evaluate_split` (`compute_psnr`, `compute_ssim`, `compute_lpips`) → `summarize` → `compare_methods` → save the tables.
 5. `make_figures.py`: `plot_jpeg_sweep` → `plot_examples`.
 
 ## Run
 
-Tested with Python 3.14. The code uses an NVIDIA GPU if there is one, then an Apple GPU, then the CPU. Run the following commands from the repository root:
+The local pipeline was tested with Python 3.14; the recorded ResShift run used Python 3.13.16 in Colab. To reproduce the reported diffusion experiment, use the Colab notebook below. The general pipeline uses an NVIDIA GPU if there is one, then an Apple GPU, then the CPU. Run the following commands from the repository root:
 
 ```bash
 python3 -m venv .venv
@@ -69,11 +73,16 @@ python -m pip install -r requirements.txt
 bash run_pipeline.sh
 ```
 
-`run_pipeline.sh` automates the pipeline stages configured in the script. To evaluate both dev and test splits, run the corresponding commands for each split as shown below. The pipeline includes the pinned ResShift implementation, checkpoint download, dataset preparation, upscaling, metric evaluation and figure generation. ResShift is substantially slower than the RRDBNet-based methods; runtime depends on the available accelerator. Each run may overwrite existing outputs and result tables.
+`run_pipeline.sh` regenerates the data and runs all four methods on dev. It is a general pipeline, not the procedure used for the archived ResShift-only experiment; regenerating text images on another system can change the inputs. To evaluate both dev and test splits, run the corresponding commands for each split as shown below. The pipeline includes the pinned ResShift implementation, checkpoint download, dataset preparation, upscaling, metric evaluation and figure generation. ResShift is substantially slower than the RRDBNet-based methods; runtime depends on the available accelerator. Each run may overwrite existing outputs and result tables.
 
 ### Google Colab
 
-Due to limited local computational resources, the diffusion-based ResShift model was tested separately in Google Colab using an available GPU runtime. The other super-resolution methods were evaluated through the main project pipeline. Therefore, Google Colab was used specifically to run and evaluate ResShift, rather than to execute the entire pipeline.
+1. Open [`notebooks/ResShift_only_dev.ipynb`](notebooks/ResShift_only_dev.ipynb) in Colab and select a GPU runtime. The committed notebook includes the completed T4 run and its outputs.
+2. Download [`data/resshift_dev_bundle.zip`](data/resshift_dev_bundle.zip) from this repository and upload it to `/content/resshift_dev_bundle.zip` through the Colab file panel.
+3. Run the notebook cells in order. They extract the existing images, install dependencies without replacing the Colab PyTorch/torchvision pair, load the pinned ResShift code and run diffusion on dev only. No dataset generation or baseline inference is performed.
+4. Download `resshift_dev_results.zip` from the final cell and save the executed notebook with outputs.
+
+The input archive is stored byte-for-byte so the archived experiment does not depend on cross-platform text rendering. It contains only dev image files. Sampling seeds are fixed per image and reused across all four JPEG levels. Settings, input and checkpoint hashes, package versions and per-image timing are under [`results/resshift_dev/`](results/resshift_dev/).
 
 The steps can also be run one at a time:
 
@@ -89,13 +98,13 @@ python code/models/upscale.py --split dev
 python code/evaluation/evaluate.py --split dev
 python code/evaluation/make_figures.py --split dev
 
-# Run the test split
+# Final test evaluation after settings are frozen (not part of the recorded dev run)
 python code/models/upscale.py --split test
 python code/evaluation/evaluate.py --split test
 python code/evaluation/make_figures.py --split test
 ```
 
-## Preliminary results (dev split, 64 images; before ResShift integration)
+## Preliminary results (dev split, 64 images)
 
 Mean over images. Input without JPEG compression:
 
@@ -104,56 +113,33 @@ Mean over images. Input without JPEG compression:
 | Objects | Bicubic | 25.62 | 0.689 | 0.488 |
 | Objects | Real-ESRNet | 26.31 | 0.737 | 0.376 |
 | Objects | Real-ESRGAN | 24.44 | 0.682 | 0.255 |
+| Objects | ResShift | 25.47 | 0.701 | 0.212 |
 | Faces | Bicubic | 33.40 | 0.879 | 0.289 |
 | Faces | Real-ESRNet | 33.76 | 0.894 | 0.238 |
 | Faces | Real-ESRGAN | 31.05 | 0.859 | 0.159 |
+| Faces | ResShift | 32.26 | 0.862 | 0.108 |
 | Text | Bicubic | 16.46 | 0.707 | 0.436 |
 | Text | Real-ESRNet | 19.31 | 0.838 | 0.186 |
 | Text | Real-ESRGAN | 17.83 | 0.818 | 0.107 |
+| Text | ResShift | 19.76 | 0.858 | 0.085 |
 
-Real-ESRGAN has the lowest LPIPS for every content type but loses 1.5–2.7 dB PSNR against Real-ESRNet, the same network trained without the GAN loss. These are preliminary results from the earlier three-method experiment and do not include ResShift.
+Without JPEG, ResShift has the lowest mean LPIPS in every content category and improves mean PSNR over Real-ESRGAN. Real-ESRNet retains the highest PSNR and SSIM on objects and faces; ResShift has the highest values on text. Under heavy JPEG compression the picture changes: at quality 10, ResShift has lower SSIM than Real-ESRGAN in all three categories, and slightly worse LPIPS on objects. These metric improvements do not establish correct text recognition or preserved face identity.
 
 All JPEG levels: [`results/summary_dev.csv`](results/summary_dev.csv). Paired differences: [`results/paired_dev.csv`](results/paired_dev.csv).
 
 ![Metrics against JPEG quality](results/figures/jpeg_sweep_dev.png)
 
-![Example comparison](results/figures/examples_dev_jpeg_none.png)
+ResShift at JPEG quality 10 (input, reconstruction, reference):
 
-## Test results after ResShift integration
+![ResShift examples](results/figures/examples_dev_jpeg_10.png)
 
-Mean over test images. Input without JPEG recompression:
+The earlier three-method example without JPEG remains in [`examples_dev_jpeg_none.png`](results/figures/examples_dev_jpeg_none.png).
 
-| Content | Method | PSNR (dB) ↑ | SSIM ↑ | LPIPS ↓ |
-|---|---|---:|---:|---:|
-| Objects | Bicubic | 26.6937 | 0.7182 | 0.4648 |
-| Objects | Real-ESRNet | 27.5370 | 0.7653 | 0.3569 |
-| Objects | Real-ESRGAN | 25.6481 | 0.7085 | 0.2436 |
-| Objects | ResShift | 26.5597 | 0.7309 | 0.1925 |
-| Faces | Bicubic | 32.0756 | 0.8688 | 0.2961 |
-| Faces | Real-ESRNet | 32.6824 | 0.8864 | 0.2452 |
-| Faces | Real-ESRGAN | 30.2526 | 0.8518 | 0.1657 |
-| Faces | ResShift | 31.3226 | 0.8578 | 0.1126 |
-| Text | Bicubic | 16.4075 | 0.7029 | 0.4383 |
-| Text | Real-ESRNet | 19.2828 | 0.8363 | 0.1876 |
-| Text | Real-ESRGAN | 17.8242 | 0.8169 | 0.1086 |
-| Text | ResShift | 19.7180 | 0.8564 | 0.0866 |
+## Evaluation still to complete
 
-Real-ESRNet achieves the highest PSNR and SSIM for objects and faces. ResShift achieves the highest PSNR and SSIM for text and the lowest LPIPS across all three content categories. Real-ESRGAN also achieves lower LPIPS than Real-ESRNet in all three categories, despite lower PSNR and SSIM. These results illustrate the trade-off between distortion-based and perceptual metrics; no method is the universal winner across all metrics.
+MUSIQ, OCR character/word error rates, face-identity similarity and the multiple-seed ResShift study are pending. Final evaluation on the original 276-image test split will follow frozen settings and must document the earlier exploratory test access. Existing exploratory test files are retained in [`results/legacy_colab/`](results/legacy_colab/).
 
-These values describe only the test images without JPEG recompression. Results for JPEG qualities 50, 30 and 10 should be taken from the corresponding evaluation tables.
-
-### Inference time
-
-Average runtime per image on an NVIDIA Tesla T4:
-
-| Method | Time (seconds/image) ↓ |
-|---|---:|
-| Bicubic | 0.00345 |
-| Real-ESRNet | 0.54590 |
-| Real-ESRGAN | 0.55045 |
-| ResShift | 0.91256 |
-
-Bicubic interpolation is the fastest method, while ResShift has the highest inference time in this environment. Runtime depends on the hardware and software configuration.
+ResShift averaged **0.909 seconds per image** on the Tesla T4 after three warm-up calls. Baseline timings were measured on an RTX 3080 Ti Laptop GPU, so they are not a controlled speed comparison. A common-hardware benchmark and review of confidence-interval reporting remain to be completed.
 
 ## Repository layout
 
@@ -161,12 +147,15 @@ Bicubic interpolation is the fastest method, while ResShift has the highest infe
 code/datasets/      download, text rendering, data preparation
 code/models/        RRDBNet definition, upscaling script and ResShift setup
 code/evaluation/    metrics and figures
-data/processed/     manifest.csv and data_report.json (images are regenerated by the pipeline)
+data/processed/     dataset manifest and preparation report
+data/resshift_dev_bundle.zip  frozen original dev inputs, baseline tables and code for Colab
 models/             downloaded weights (not tracked)
 third_party/        pinned ResShift source (not tracked)
-notebooks/          data overview
+notebooks/          data overview and executed ResShift Colab experiment
 reports/            stage reports
-results/            metric tables and figures
+results/            current dev tables and figures
+results/resshift_dev/  diffusion tables, environment, seeds and provenance
+results/legacy_colab/  earlier exploratory test results
 outputs/            super-resolution outputs by split, method and JPEG condition
 ```
 
@@ -183,7 +172,7 @@ outputs/            super-resolution outputs by split, method and JPEG condition
 
 ResShift is loaded from the official repository at a pinned commit (`bb03b7d`). The setup script clones that source into `third_party/ResShift/` (ignored by Git); the two pretrained checkpoints are downloaded into `models/` by `code/datasets/download_data.py`. ResShift outputs are saved under `outputs/<split>/resshift/jpeg_<quality>/`, following the same output layout as the other methods. Its stochastic sampler receives a stable per-image seed, reused across JPEG conditions.
 
-The completed dev and test evaluations include all four methods and all four JPEG conditions. Results and generated artifacts are stored under `results/`, while the upscaled images are stored under `outputs/`. The test metrics without JPEG recompression are summarized above; full results for all degradation levels are available in the generated CSV files.
+The current dev tables contain 1,024 rows: 768 original baseline measurements and 256 new ResShift measurements, across all four JPEG conditions. The executed notebook and frozen archive are the reproduction entry point for this comparison. Full upscaled images are exported by the notebook and are not tracked in Git. Earlier exploratory test results are stored separately; the final evaluation and multiple-seed study remain pending.
 
 ## Credits
 
