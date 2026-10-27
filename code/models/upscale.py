@@ -3,6 +3,7 @@ import json
 import platform
 import sys
 import time
+import zlib
 from pathlib import Path
 
 import numpy as np
@@ -15,12 +16,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT / "code" / "datasets"))
 from prepare_data import JPEG_QUALITIES, LR_DIR, PROCESSED_DIR, SCALE
 from rrdbnet import RRDBNet
+from resshift import ResShift
 
 MODELS_DIR = PROJECT_ROOT / "models"
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 RESULTS_DIR = PROJECT_ROOT / "results"
 
-METHODS = ["bicubic", "realesrnet", "realesrgan"]
+METHODS = ["bicubic", "realesrnet", "realesrgan", "resshift"]
 # Real-ESRNet and Real-ESRGAN share the RRDBNet generator and training data; only the loss differs.
 WEIGHTS = {
     "realesrnet": "RealESRNet_x4plus.pth",
@@ -30,6 +32,13 @@ MODEL_CONFIG = {
     "num_feat": 64,
     "num_block": 23,
     "num_grow_ch": 32,
+}
+RESSHIFT_CONFIG = {
+    "version": "v3",
+    "model_weights": "resshift_realsrx4_s4_v3.pth",
+    "autoencoder_weights": "autoencoder_vq_f4.pth",
+    "amp": True,
+    "seed": 0,
 }
 WARMUP_IMAGES = 3
 
@@ -68,6 +77,14 @@ def load_rrdbnet(method, device):
     network.load_state_dict(state, strict=True)
     return network.eval().to(device)
 
+def load_resshift(device):
+    return ResShift(
+        device=device,
+        weights_dir=MODELS_DIR,
+        version=RESSHIFT_CONFIG["version"],
+        amp=RESSHIFT_CONFIG["amp"],
+        seed=RESSHIFT_CONFIG["seed"],
+    )
 
 def upscale_bicubic(image):
     size = (image.width * SCALE, image.height * SCALE)
@@ -85,16 +102,25 @@ def upscale_rrdbnet(image, network, device):
 
 
 def run_method(method, image_ids, split, device):
-    network = load_rrdbnet(method, device) if method in WEIGHTS else None
+    if method in WEIGHTS:
+        network = load_rrdbnet(method, device)
+    elif method == "resshift":
+        network = load_resshift(device)
+    else:
+        network = None
 
-    def upscale(image):
+    def upscale(image, image_id=None):
         if method == "bicubic":
             return upscale_bicubic(image)
+        if method == "resshift":
+            seed = zlib.crc32(image_id.encode("utf-8")) & 0x7FFFFFFF
+            output = network.upscale(np.asarray(image.convert("RGB")), seed=seed)
+            return Image.fromarray(output)
         return upscale_rrdbnet(image, network, device)
-
-    warmup_image = Image.open(LR_DIR / "jpeg_none" / f"{image_ids[0]}.png")
+    
+    warmup_image = Image.open(LR_DIR / "jpeg_none" / f"{image_ids[0]}.png").convert("RGB")
     for _ in range(WARMUP_IMAGES):
-        upscale(warmup_image)
+        upscale(warmup_image, image_ids[0])
 
     seconds = []
     for quality in JPEG_QUALITIES:
@@ -103,7 +129,7 @@ def run_method(method, image_ids, split, device):
         for image_id in tqdm(image_ids, desc=f"{method} jpeg_{quality}"):
             image = Image.open(LR_DIR / f"jpeg_{quality}" / f"{image_id}.png").convert("RGB")
             start = time.perf_counter()
-            result = upscale(image)
+            result = upscale(image, image_id)
             seconds.append(time.perf_counter() - start)
             result.save(output_dir / f"{image_id}.png")
 
@@ -130,6 +156,7 @@ def main(split="dev", methods=METHODS):
         "rrdbnet_config": MODEL_CONFIG,
         "rrdbnet_weights": WEIGHTS,
         "rrdbnet_parameters": sum(p.numel() for p in RRDBNet().parameters()),
+        "resshift_config": RESSHIFT_CONFIG,
         "methods": {},
     }
     for method in methods:

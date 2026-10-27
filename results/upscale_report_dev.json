@@ -1,7 +1,7 @@
 {
   "split": "dev",
-  "device": "NVIDIA GeForce RTX 3080 Ti Laptop GPU",
-  "torch": "2.11.0+cu128",
+  "device": "Tesla T4",
+  "torch": "2.11.0+cu130",
   "precision": "float32",
   "batch_size": 1,
   "input_size": 128,
@@ -16,21 +16,33 @@
     "realesrgan": "RealESRGAN_x4plus.pth"
   },
   "rrdbnet_parameters": 16697987,
+  "resshift_config": {
+    "version": "v3",
+    "model_weights": "resshift_realsrx4_s4_v3.pth",
+    "autoencoder_weights": "autoencoder_vq_f4.pth",
+    "amp": true,
+    "seed": 0
+  },
   "methods": {
     "bicubic": {
       "images": 256,
-      "seconds_per_image_mean": 0.001816633203128859,
-      "seconds_per_image_median": 0.0015780999999606138
+      "seconds_per_image_mean": 0.003406865277355564,
+      "seconds_per_image_median": 0.0032178225001189276
     },
     "realesrnet": {
       "images": 256,
-      "seconds_per_image_mean": 0.1115026566406403,
-      "seconds_per_image_median": 0.11038510000003043
+      "seconds_per_image_mean": 0.5356565492421712,
+      "seconds_per_image_median": 0.5443038384998999
     },
     "realesrgan": {
       "images": 256,
-      "seconds_per_image_mean": 0.11181742031248376,
-      "seconds_per_image_median": 0.11157554999999775
+      "seconds_per_image_mean": 0.5512564941289018,
+      "seconds_per_image_median": 0.5506087910000588
+    },
+    "resshift": {
+      "images": 256,
+      "seconds_per_image_mean": 0.9078206558945237,
+      "seconds_per_image_median": 0.9049360555000021
     }
   }
 }

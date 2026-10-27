@@ -1,0 +1,48 @@
+{
+  "split": "test",
+  "device": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "precision": "float32",
+  "batch_size": 1,
+  "input_size": 128,
+  "output_size": 512,
+  "rrdbnet_config": {
+    "num_feat": 64,
+    "num_block": 23,
+    "num_grow_ch": 32
+  },
+  "rrdbnet_weights": {
+    "realesrnet": "RealESRNet_x4plus.pth",
+    "realesrgan": "RealESRGAN_x4plus.pth"
+  },
+  "rrdbnet_parameters": 16697987,
+  "resshift_config": {
+    "version": "v3",
+    "model_weights": "resshift_realsrx4_s4_v3.pth",
+    "autoencoder_weights": "autoencoder_vq_f4.pth",
+    "amp": true,
+    "seed": 0
+  },
+  "methods": {
+    "bicubic": {
+      "images": 1104,
+      "seconds_per_image_mean": 0.0034515458378773537,
+      "seconds_per_image_median": 0.003284412000084558
+    },
+    "realesrnet": {
+      "images": 1104,
+      "seconds_per_image_mean": 0.5459036793641286,
+      "seconds_per_image_median": 0.5526270525001564
+    },
+    "realesrgan": {
+      "images": 1104,
+      "seconds_per_image_mean": 0.5504512509882166,
+      "seconds_per_image_median": 0.550321863499903
+    },
+    "resshift": {
+      "images": 1104,
+      "seconds_per_image_mean": 0.9125569135534397,
+      "seconds_per_image_median": 0.9107807874997889
+    }
+  }
+}

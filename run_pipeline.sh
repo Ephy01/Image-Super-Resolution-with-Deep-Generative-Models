@@ -1,6 +1,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 PY=${PYTHON:-.venv/bin/python}
+bash code/models/setup_resshift.sh
 $PY code/datasets/download_data.py
 $PY code/datasets/prepare_data.py
 $PY code/models/upscale.py --split dev
