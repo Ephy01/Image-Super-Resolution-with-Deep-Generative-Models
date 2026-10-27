@@ -17,7 +17,12 @@ from upscale import METHODS, OUTPUTS_DIR, RESULTS_DIR
 FIGURES_DIR = RESULTS_DIR / "figures"
 CONTENTS = ["objects", "faces", "text"]
 METRIC_LABELS = {"psnr": "PSNR (dB), higher is better", "ssim": "SSIM, higher is better", "lpips": "LPIPS, lower is better"}
-METHOD_LABELS = {"bicubic": "Bicubic", "realesrnet": "Real-ESRNet", "realesrgan": "Real-ESRGAN"}
+METHOD_LABELS = {
+    "bicubic": "Bicubic",
+    "realesrnet": "Real-ESRNet",
+    "realesrgan": "Real-ESRGAN",
+    "resshift": "ResShift",
+}
 EXAMPLE_QUALITIES = ["none", 10]
 CROP = (128, 128, 384, 384)
 
@@ -41,7 +46,7 @@ def plot_jpeg_sweep(summary, split):
             if row == len(METRIC_LABELS) - 1:
                 axis.set_xlabel("JPEG quality of the input")
     axes[0, 0].legend()
-    figure.suptitle(f"Baselines and Real-ESRGAN on the {split} split (mean and 95% confidence interval)")
+    figure.suptitle(f"Super-resolution methods on the {split} split (mean and 95% confidence interval)")
     figure.tight_layout()
     figure.savefig(FIGURES_DIR / f"jpeg_sweep_{split}.png", dpi=150)
     plt.close(figure)

@@ -10,3 +10,4 @@ data/processed/lr/
 models/*.pth
 outputs/
 reports/*.md
+third_party/

@@ -15,3 +15,12 @@ lpips==0.1.4
 tabulate==0.10.0
 # notebooks
 jupyter
+# ResShift (official third-party inference code)
+omegaconf==2.3.0
+einops
+timm
+PyYAML
+scipy
+addict
+future
+loralib

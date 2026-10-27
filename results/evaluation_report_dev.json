@@ -1,9 +1,27 @@
 {
   "split": "dev",
   "images": 64,
-  "rows": 768,
+  "rows": 1024,
+  "methods": [
+    "bicubic",
+    "realesrnet",
+    "realesrgan",
+    "resshift"
+  ],
   "psnr_ssim": "Y channel (BT.601), 4-pixel border crop",
   "lpips": "AlexNet",
   "confidence_interval": "95% bootstrap half-width, 10000 resamples",
-  "seed": 42
+  "seed": 42,
+  "baseline": {
+    "source_commit": "896fe8c07d67164c9dedf3a513e934b257bb6216",
+    "rows": 768,
+    "recomputed": false
+  },
+  "resshift": {
+    "rows": 256,
+    "settings": "resshift_dev/settings.json",
+    "notebook": "../notebooks/ResShift_only_dev.ipynb"
+  },
+  "input_archive": "../data/resshift_dev_bundle.zip",
+  "note": "Earlier exploratory Colab test results are retained separately in legacy_colab/."
 }
