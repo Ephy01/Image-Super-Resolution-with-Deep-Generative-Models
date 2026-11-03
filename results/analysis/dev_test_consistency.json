@@ -1,0 +1,1147 @@
+{
+  "rows": [
+    {
+      "content": "objects",
+      "jpeg": "none",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "none",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "resshift",
+        "bicubic",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "resshift",
+        "bicubic",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "none",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "none",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "50",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "50",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "50",
+      "metric": "lpips",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": false,
+      "same_order": false
+    },
+    {
+      "content": "objects",
+      "jpeg": "50",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "30",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "30",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "30",
+      "metric": "lpips",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": false,
+      "same_order": false
+    },
+    {
+      "content": "objects",
+      "jpeg": "30",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "10",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "10",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "realesrgan",
+        "bicubic",
+        "resshift"
+      ],
+      "test_order": [
+        "realesrnet",
+        "realesrgan",
+        "bicubic",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "objects",
+      "jpeg": "10",
+      "metric": "lpips",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": false,
+      "same_order": false
+    },
+    {
+      "content": "objects",
+      "jpeg": "10",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "none",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "none",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "none",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "none",
+      "metric": "musiq",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "none",
+      "metric": "arcface_sim",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "none",
+      "metric": "arcface_match",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "50",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "50",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "50",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "50",
+      "metric": "musiq",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "50",
+      "metric": "arcface_sim",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "50",
+      "metric": "arcface_match",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "30",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "30",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "30",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "30",
+      "metric": "musiq",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "30",
+      "metric": "arcface_sim",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "30",
+      "metric": "arcface_match",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "10",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "10",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "realesrgan",
+        "bicubic",
+        "resshift"
+      ],
+      "test_order": [
+        "realesrnet",
+        "realesrgan",
+        "resshift",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": false
+    },
+    {
+      "content": "faces",
+      "jpeg": "10",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "10",
+      "metric": "musiq",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "10",
+      "metric": "arcface_sim",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "faces",
+      "jpeg": "10",
+      "metric": "arcface_match",
+      "dev_order": [
+        "resshift",
+        "bicubic",
+        "realesrnet",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "realesrgan",
+        "resshift",
+        "bicubic"
+      ],
+      "same_best": false,
+      "same_order": false
+    },
+    {
+      "content": "text",
+      "jpeg": "none",
+      "metric": "psnr",
+      "dev_order": [
+        "resshift",
+        "realesrnet",
+        "realesrgan",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrnet",
+        "realesrgan",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "none",
+      "metric": "ssim",
+      "dev_order": [
+        "resshift",
+        "realesrnet",
+        "realesrgan",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrnet",
+        "realesrgan",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "none",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "none",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "none",
+      "metric": "cer",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "50",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "50",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "50",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "50",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "50",
+      "metric": "cer",
+      "dev_order": [
+        "bicubic",
+        "realesrnet",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": false,
+      "same_order": false
+    },
+    {
+      "content": "text",
+      "jpeg": "30",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "30",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrnet",
+        "resshift",
+        "realesrgan",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "30",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "30",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "30",
+      "metric": "cer",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "10",
+      "metric": "psnr",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "resshift",
+        "realesrgan"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "10",
+      "metric": "ssim",
+      "dev_order": [
+        "realesrnet",
+        "realesrgan",
+        "resshift",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrnet",
+        "realesrgan",
+        "resshift",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "10",
+      "metric": "lpips",
+      "dev_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "resshift",
+        "realesrgan",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "10",
+      "metric": "musiq",
+      "dev_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "test_order": [
+        "realesrgan",
+        "resshift",
+        "realesrnet",
+        "bicubic"
+      ],
+      "same_best": true,
+      "same_order": true
+    },
+    {
+      "content": "text",
+      "jpeg": "10",
+      "metric": "cer",
+      "dev_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "test_order": [
+        "realesrnet",
+        "bicubic",
+        "realesrgan",
+        "resshift"
+      ],
+      "same_best": true,
+      "same_order": true
+    }
+  ],
+  "same_best": 55,
+  "same_order": 54,
+  "cells": 60
+}

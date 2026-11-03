@@ -11,7 +11,10 @@ import torch.nn.functional as F
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-REPO = PROJECT_ROOT / "third_party" / "ResShift"
+sys.path.append(str(PROJECT_ROOT))
+import paths
+
+REPO = paths.THIRD_PARTY_ROOT / "ResShift"
 CONFIGS = {"v3": "realsr_swinunet_realesrgan256_journal.yaml"}
 SCALE = 4
 

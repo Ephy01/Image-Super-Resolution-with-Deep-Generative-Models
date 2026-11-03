@@ -1,0 +1,976 @@
+{
+  "split": "test",
+  "rules": {
+    "a": "text, any JPEG level; LPIPS ranks a generative method best of the 4 and its CER is the worst of the 4; take the case with the largest CER gap to the best-CER method",
+    "b": "faces, JPEG none; the lowest ArcFace similarity of any generative method (detection failures are listed separately)",
+    "c": "JPEG 10, any content; the largest PSNR deficit of a generative method below bicubic",
+    "d": "ResShift, HR font size 16, JPEG none; the highest ResShift CER, ties by the largest CER gap to Real-ESRNet",
+    "crop": "128x128 HR pixels centred on the maximum of the 31x31 box-filtered absolute Y error of the failing method",
+    "fallback": "if no image meets rule a, report \"no case\" and keep b, c and d"
+  },
+  "methods": [
+    "bicubic",
+    "realesrnet",
+    "realesrgan",
+    "resshift"
+  ],
+  "all_methods_present": true,
+  "cases": [
+    {
+      "rule": "a",
+      "image_id": "text_test_075",
+      "jpeg": "50",
+      "method": "realesrgan",
+      "selection_value": 0.41538461538461535,
+      "selection": "CER gap to the best-CER method",
+      "eligible": 111,
+      "text_inputs": 384,
+      "eligible_by_method": {
+        "realesrgan": 76,
+        "resshift": 35
+      },
+      "shown": [
+        "lpips",
+        "cer"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 15.54199283638926,
+          "ssim": 0.6226580038137077,
+          "lpips": 0.5450100898742676,
+          "musiq": 33.5819091796875,
+          "cer": 0.0923076923076923,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrnet": {
+          "psnr": 16.163839601499205,
+          "ssim": 0.7758818716583142,
+          "lpips": 0.2584755718708038,
+          "musiq": 44.60838317871094,
+          "cer": 0.1948717948717948,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrgan": {
+          "psnr": 14.119971499505956,
+          "ssim": 0.7415508410387437,
+          "lpips": 0.1565399169921875,
+          "musiq": 54.54197692871094,
+          "cer": 0.5076923076923077,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "resshift": {
+          "psnr": 16.14210680086762,
+          "ssim": 0.7886902810140286,
+          "lpips": 0.1592438519001007,
+          "musiq": 52.261016845703125,
+          "cer": 0.3333333333333333,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "hr": {
+          "musiq": 58.76656723022461,
+          "cer": 0.0
+        }
+      },
+      "values_by_jpeg": {
+        "none": {
+          "bicubic": {
+            "psnr": 15.863872192011758,
+            "ssim": 0.6950175352612262,
+            "lpips": 0.4603689610958099,
+            "musiq": 35.46345520019531,
+            "cer": 0.0153846153846153,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 16.803083022007367,
+            "ssim": 0.8176442050986736,
+            "lpips": 0.2109076082706451,
+            "musiq": 47.43446731567383,
+            "cer": 0.123076923076923,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 14.888573910969257,
+            "ssim": 0.7892699344371719,
+            "lpips": 0.1332650780677795,
+            "musiq": 55.38092422485352,
+            "cer": 0.3897435897435897,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 17.654110024009476,
+            "ssim": 0.8591524199620193,
+            "lpips": 0.1203205659985542,
+            "musiq": 53.67955017089844,
+            "cer": 0.082051282051282,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.76656723022461,
+            "cer": 0.0
+          }
+        },
+        "50": {
+          "bicubic": {
+            "psnr": 15.54199283638926,
+            "ssim": 0.6226580038137077,
+            "lpips": 0.5450100898742676,
+            "musiq": 33.5819091796875,
+            "cer": 0.0923076923076923,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 16.163839601499205,
+            "ssim": 0.7758818716583142,
+            "lpips": 0.2584755718708038,
+            "musiq": 44.60838317871094,
+            "cer": 0.1948717948717948,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 14.119971499505956,
+            "ssim": 0.7415508410387437,
+            "lpips": 0.1565399169921875,
+            "musiq": 54.54197692871094,
+            "cer": 0.5076923076923077,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 16.14210680086762,
+            "ssim": 0.7886902810140286,
+            "lpips": 0.1592438519001007,
+            "musiq": 52.261016845703125,
+            "cer": 0.3333333333333333,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.76656723022461,
+            "cer": 0.0
+          }
+        },
+        "30": {
+          "bicubic": {
+            "psnr": 15.329526566338089,
+            "ssim": 0.5954784252472655,
+            "lpips": 0.596428632736206,
+            "musiq": 31.186771392822266,
+            "cer": 0.2692307692307692,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 15.818192717107802,
+            "ssim": 0.7465050389456961,
+            "lpips": 0.3024323880672455,
+            "musiq": 45.45874786376953,
+            "cer": 0.3,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 13.846694534160974,
+            "ssim": 0.7113920728763306,
+            "lpips": 0.1787232309579849,
+            "musiq": 53.91318130493164,
+            "cer": 0.6025641025641025,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 15.377153875328537,
+            "ssim": 0.745711457355437,
+            "lpips": 0.1789429634809494,
+            "musiq": 51.8504753112793,
+            "cer": 0.4846153846153846,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.76656723022461,
+            "cer": 0.0
+          }
+        },
+        "10": {
+          "bicubic": {
+            "psnr": 14.678318128750949,
+            "ssim": 0.5551337732582011,
+            "lpips": 0.7293820381164551,
+            "musiq": 25.412363052368164,
+            "cer": 0.658974358974359,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 14.875973184281104,
+            "ssim": 0.6643475049533362,
+            "lpips": 0.5160303115844727,
+            "musiq": 34.84198760986328,
+            "cer": 0.6794871794871795,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 13.594980888944724,
+            "ssim": 0.6526148609301112,
+            "lpips": 0.22234608232975,
+            "musiq": 50.35969543457031,
+            "cer": 0.7384615384615385,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 13.97743176440641,
+            "ssim": 0.6452426059173652,
+            "lpips": 0.2165577411651611,
+            "musiq": 48.9774169921875,
+            "cer": 0.7948717948717948,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.76656723022461,
+            "cer": 0.0
+          }
+        }
+      },
+      "font": "DejaVuSansMono.ttf",
+      "font_size": 24,
+      "kind": "words",
+      "reference_text_first_line": "circle enough winter again middle",
+      "ocr_first_line": {
+        "bicubic": "circle enoug? winter again aioti\u00abe",
+        "realesrnet": "Orcle mow winter \u00e9gain alone",
+        "realesrgan": "circlo Mop wintor wWoln Alona",
+        "resshift": "circls nooogh winher aquin nioga"
+      },
+      "crop": [
+        235,
+        359,
+        363,
+        487
+      ],
+      "figure": "results/final/figures/failure_a_test.png"
+    },
+    {
+      "rule": "b",
+      "image_id": "face_00591",
+      "jpeg": "none",
+      "method": "realesrgan",
+      "selection_value": 0.9119074657877846,
+      "selection": "lowest ArcFace similarity",
+      "detection_failures_jpeg_none": [],
+      "shown": [
+        "arcface_sim",
+        "psnr",
+        "lpips"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 28.754904470961304,
+          "ssim": 0.8096707172344932,
+          "lpips": 0.3539156019687652,
+          "musiq": 40.45838165283203,
+          "cer": NaN,
+          "arcface_sim": 0.9618981935120384,
+          "arcface_match": 1.0
+        },
+        "realesrnet": {
+          "psnr": 30.327690644746298,
+          "ssim": 0.8500138469164135,
+          "lpips": 0.2449880391359329,
+          "musiq": 71.67285919189453,
+          "cer": NaN,
+          "arcface_sim": 0.9437693150745748,
+          "arcface_match": 1.0
+        },
+        "realesrgan": {
+          "psnr": 27.84378512514103,
+          "ssim": 0.8021863602148024,
+          "lpips": 0.1766425967216491,
+          "musiq": 77.28087615966797,
+          "cer": NaN,
+          "arcface_sim": 0.9119074657877846,
+          "arcface_match": 1.0
+        },
+        "resshift": {
+          "psnr": 29.77219207542493,
+          "ssim": 0.8328320412888438,
+          "lpips": 0.1351042538881302,
+          "musiq": 76.51431274414062,
+          "cer": NaN,
+          "arcface_sim": 0.9513550872266866,
+          "arcface_match": 1.0
+        },
+        "hr": {
+          "musiq": 77.64618682861328,
+          "cer": NaN
+        }
+      },
+      "values_by_jpeg": {
+        "none": {
+          "bicubic": {
+            "psnr": 28.754904470961304,
+            "ssim": 0.8096707172344932,
+            "lpips": 0.3539156019687652,
+            "musiq": 40.45838165283203,
+            "cer": NaN,
+            "arcface_sim": 0.9618981935120384,
+            "arcface_match": 1.0
+          },
+          "realesrnet": {
+            "psnr": 30.327690644746298,
+            "ssim": 0.8500138469164135,
+            "lpips": 0.2449880391359329,
+            "musiq": 71.67285919189453,
+            "cer": NaN,
+            "arcface_sim": 0.9437693150745748,
+            "arcface_match": 1.0
+          },
+          "realesrgan": {
+            "psnr": 27.84378512514103,
+            "ssim": 0.8021863602148024,
+            "lpips": 0.1766425967216491,
+            "musiq": 77.28087615966797,
+            "cer": NaN,
+            "arcface_sim": 0.9119074657877846,
+            "arcface_match": 1.0
+          },
+          "resshift": {
+            "psnr": 29.77219207542493,
+            "ssim": 0.8328320412888438,
+            "lpips": 0.1351042538881302,
+            "musiq": 76.51431274414062,
+            "cer": NaN,
+            "arcface_sim": 0.9513550872266866,
+            "arcface_match": 1.0
+          },
+          "hr": {
+            "musiq": 77.64618682861328,
+            "cer": NaN
+          }
+        },
+        "50": {
+          "bicubic": {
+            "psnr": 27.174347024478553,
+            "ssim": 0.7300062216071176,
+            "lpips": 0.5684590935707092,
+            "musiq": 29.25592613220215,
+            "cer": NaN,
+            "arcface_sim": 0.8138717718350089,
+            "arcface_match": 1.0
+          },
+          "realesrnet": {
+            "psnr": 28.10647333884741,
+            "ssim": 0.7779812305674926,
+            "lpips": 0.3436336517333984,
+            "musiq": 58.171783447265625,
+            "cer": NaN,
+            "arcface_sim": 0.8398631799902967,
+            "arcface_match": 1.0
+          },
+          "realesrgan": {
+            "psnr": 26.234306179823793,
+            "ssim": 0.7337644146297577,
+            "lpips": 0.2357759028673172,
+            "musiq": 74.82376098632812,
+            "cer": NaN,
+            "arcface_sim": 0.7958992061993944,
+            "arcface_match": 1.0
+          },
+          "resshift": {
+            "psnr": 27.470094259544453,
+            "ssim": 0.7559736594734406,
+            "lpips": 0.2553112506866455,
+            "musiq": 72.61801147460938,
+            "cer": NaN,
+            "arcface_sim": 0.8262156030719799,
+            "arcface_match": 1.0
+          },
+          "hr": {
+            "musiq": 77.64618682861328,
+            "cer": NaN
+          }
+        },
+        "30": {
+          "bicubic": {
+            "psnr": 26.524635534753138,
+            "ssim": 0.7080563468125736,
+            "lpips": 0.6065855622291565,
+            "musiq": 23.30143165588379,
+            "cer": NaN,
+            "arcface_sim": 0.7365748370192761,
+            "arcface_match": 1.0
+          },
+          "realesrnet": {
+            "psnr": 27.39263779991608,
+            "ssim": 0.7580562175649778,
+            "lpips": 0.3765960931777954,
+            "musiq": 51.77384567260742,
+            "cer": NaN,
+            "arcface_sim": 0.7701585416300648,
+            "arcface_match": 1.0
+          },
+          "realesrgan": {
+            "psnr": 25.781549061939376,
+            "ssim": 0.7193747386605088,
+            "lpips": 0.2638894915580749,
+            "musiq": 72.3884506225586,
+            "cer": NaN,
+            "arcface_sim": 0.7298734414347229,
+            "arcface_match": 1.0
+          },
+          "resshift": {
+            "psnr": 26.880182231050377,
+            "ssim": 0.7371062801774816,
+            "lpips": 0.270431250333786,
+            "musiq": 71.26985931396484,
+            "cer": NaN,
+            "arcface_sim": 0.7102979551932507,
+            "arcface_match": 1.0
+          },
+          "hr": {
+            "musiq": 77.64618682861328,
+            "cer": NaN
+          }
+        },
+        "10": {
+          "bicubic": {
+            "psnr": 24.698567011107787,
+            "ssim": 0.6488423746550254,
+            "lpips": 0.7060399055480957,
+            "musiq": 18.3863468170166,
+            "cer": NaN,
+            "arcface_sim": 0.6041497884209958,
+            "arcface_match": 1.0
+          },
+          "realesrnet": {
+            "psnr": 25.09971545160885,
+            "ssim": 0.6994251022731676,
+            "lpips": 0.4757394194602966,
+            "musiq": 43.52537155151367,
+            "cer": NaN,
+            "arcface_sim": 0.5951689525747679,
+            "arcface_match": 1.0
+          },
+          "realesrgan": {
+            "psnr": 23.624505766448117,
+            "ssim": 0.6567089688471877,
+            "lpips": 0.3636427521705627,
+            "musiq": 71.50956726074219,
+            "cer": NaN,
+            "arcface_sim": 0.5574642003689257,
+            "arcface_match": 1.0
+          },
+          "resshift": {
+            "psnr": 24.819915555903805,
+            "ssim": 0.6778458144863043,
+            "lpips": 0.3594846129417419,
+            "musiq": 66.24382781982422,
+            "cer": NaN,
+            "arcface_sim": 0.5046489098350676,
+            "arcface_match": 1.0
+          },
+          "hr": {
+            "musiq": 77.64618682861328,
+            "cer": NaN
+          }
+        }
+      },
+      "crop": [
+        189,
+        7,
+        317,
+        135
+      ],
+      "figure": "results/final/figures/failure_b_test.png"
+    },
+    {
+      "rule": "c",
+      "image_id": "object_0880",
+      "jpeg": "10",
+      "method": "resshift",
+      "selection_value": 3.2653026566047814,
+      "selection": "PSNR deficit below bicubic (dB)",
+      "shown": [
+        "psnr",
+        "ssim",
+        "lpips",
+        "cer"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 24.57191280383501,
+          "ssim": 0.5607779263281327,
+          "lpips": 0.7416055798530579,
+          "musiq": 25.666603088378903,
+          "cer": NaN,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrnet": {
+          "psnr": 24.630979958376887,
+          "ssim": 0.5862626697013518,
+          "lpips": 0.6706607937812805,
+          "musiq": 29.295642852783203,
+          "cer": NaN,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrgan": {
+          "psnr": 23.64190685849557,
+          "ssim": 0.4989427923091226,
+          "lpips": 0.4249225556850433,
+          "musiq": 52.72840881347656,
+          "cer": NaN,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "resshift": {
+          "psnr": 21.306610147230227,
+          "ssim": 0.3447071756606893,
+          "lpips": 0.4968275427818298,
+          "musiq": 63.93804168701172,
+          "cer": NaN,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "hr": {
+          "musiq": 67.57633972167969,
+          "cer": NaN
+        }
+      },
+      "values_by_jpeg": {
+        "none": {
+          "bicubic": {
+            "psnr": 29.06725707905888,
+            "ssim": 0.7520974466529775,
+            "lpips": 0.4831798076629638,
+            "musiq": 35.41961669921875,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 28.119984375092955,
+            "ssim": 0.7843916452686112,
+            "lpips": 0.3683115243911743,
+            "musiq": 54.333526611328125,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 24.673449765476313,
+            "ssim": 0.6487557877033611,
+            "lpips": 0.247831106185913,
+            "musiq": 63.64335632324219,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 26.470603696205934,
+            "ssim": 0.6941253481612607,
+            "lpips": 0.1961891204118728,
+            "musiq": 62.77040100097656,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 67.57633972167969,
+            "cer": NaN
+          }
+        },
+        "50": {
+          "bicubic": {
+            "psnr": 27.101556241484573,
+            "ssim": 0.6582856876747302,
+            "lpips": 0.622364342212677,
+            "musiq": 27.532962799072266,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 26.362739146485197,
+            "ssim": 0.6865896647236855,
+            "lpips": 0.5249950885772705,
+            "musiq": 48.62739562988281,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 23.74681782868674,
+            "ssim": 0.5361259209323964,
+            "lpips": 0.3422132134437561,
+            "musiq": 66.85696411132812,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 22.544688214902312,
+            "ssim": 0.4453180910288215,
+            "lpips": 0.384461760520935,
+            "musiq": 63.15719223022461,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 67.57633972167969,
+            "cer": NaN
+          }
+        },
+        "30": {
+          "bicubic": {
+            "psnr": 26.43712081941066,
+            "ssim": 0.6295298842348619,
+            "lpips": 0.6597998738288879,
+            "musiq": 27.348148345947266,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 25.6628602284853,
+            "ssim": 0.6586970980610141,
+            "lpips": 0.5660586357116699,
+            "musiq": 47.194297790527344,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 23.673279801154692,
+            "ssim": 0.4998412670402877,
+            "lpips": 0.3817799389362335,
+            "musiq": 67.08057403564453,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 22.121595300067717,
+            "ssim": 0.4003363080217748,
+            "lpips": 0.4284147024154663,
+            "musiq": 62.56153106689453,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 67.57633972167969,
+            "cer": NaN
+          }
+        },
+        "10": {
+          "bicubic": {
+            "psnr": 24.57191280383501,
+            "ssim": 0.5607779263281327,
+            "lpips": 0.7416055798530579,
+            "musiq": 25.666603088378903,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 24.630979958376887,
+            "ssim": 0.5862626697013518,
+            "lpips": 0.6706607937812805,
+            "musiq": 29.295642852783203,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 23.64190685849557,
+            "ssim": 0.4989427923091226,
+            "lpips": 0.4249225556850433,
+            "musiq": 52.72840881347656,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 21.306610147230227,
+            "ssim": 0.3447071756606893,
+            "lpips": 0.4968275427818298,
+            "musiq": 63.93804168701172,
+            "cer": NaN,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 67.57633972167969,
+            "cer": NaN
+          }
+        }
+      },
+      "crop": [
+        0,
+        148,
+        128,
+        276
+      ],
+      "figure": "results/final/figures/failure_c_test.png"
+    },
+    {
+      "rule": "d",
+      "image_id": "text_test_069",
+      "jpeg": "none",
+      "method": "resshift",
+      "selection_value": 0.7509933774834437,
+      "selection": "highest ResShift CER at HR font size 16",
+      "shown": [
+        "cer",
+        "psnr",
+        "lpips"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 15.000891832038112,
+          "ssim": 0.5550496029253609,
+          "lpips": 0.6258662939071655,
+          "musiq": 32.87515640258789,
+          "cer": 0.7642384105960265,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrnet": {
+          "psnr": 15.21672079673968,
+          "ssim": 0.6639825341371998,
+          "lpips": 0.3807651102542877,
+          "musiq": 44.137325286865234,
+          "cer": 0.7602649006622516,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrgan": {
+          "psnr": 13.91220542590997,
+          "ssim": 0.6475237860869419,
+          "lpips": 0.2864612340927124,
+          "musiq": 51.7563591003418,
+          "cer": 0.8105960264900662,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "resshift": {
+          "psnr": 14.841505720356896,
+          "ssim": 0.6781818721623688,
+          "lpips": 0.1784466654062271,
+          "musiq": 52.09984588623047,
+          "cer": 0.7509933774834437,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "hr": {
+          "musiq": 58.13055038452149,
+          "cer": 0.0397350993377483
+        }
+      },
+      "values_by_jpeg": {
+        "none": {
+          "bicubic": {
+            "psnr": 15.000891832038112,
+            "ssim": 0.5550496029253609,
+            "lpips": 0.6258662939071655,
+            "musiq": 32.87515640258789,
+            "cer": 0.7642384105960265,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 15.21672079673968,
+            "ssim": 0.6639825341371998,
+            "lpips": 0.3807651102542877,
+            "musiq": 44.137325286865234,
+            "cer": 0.7602649006622516,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 13.91220542590997,
+            "ssim": 0.6475237860869419,
+            "lpips": 0.2864612340927124,
+            "musiq": 51.7563591003418,
+            "cer": 0.8105960264900662,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 14.841505720356896,
+            "ssim": 0.6781818721623688,
+            "lpips": 0.1784466654062271,
+            "musiq": 52.09984588623047,
+            "cer": 0.7509933774834437,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.13055038452149,
+            "cer": 0.0397350993377483
+          }
+        },
+        "50": {
+          "bicubic": {
+            "psnr": 14.78879332834953,
+            "ssim": 0.5111531341440555,
+            "lpips": 0.6684471368789673,
+            "musiq": 31.064027786254883,
+            "cer": 0.8251655629139073,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 14.787345373921063,
+            "ssim": 0.6314199431458029,
+            "lpips": 0.4211144745349884,
+            "musiq": 46.47764587402344,
+            "cer": 0.8225165562913908,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 13.764690107597136,
+            "ssim": 0.6289576852389834,
+            "lpips": 0.3047651648521423,
+            "musiq": 52.04936218261719,
+            "cer": 0.8066225165562914,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 14.201206118645729,
+            "ssim": 0.6087833495029057,
+            "lpips": 0.2026509195566177,
+            "musiq": 50.61183547973633,
+            "cer": 0.7920529801324503,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.13055038452149,
+            "cer": 0.0397350993377483
+          }
+        },
+        "30": {
+          "bicubic": {
+            "psnr": 14.636467625426764,
+            "ssim": 0.4921170902369202,
+            "lpips": 0.7157865762710571,
+            "musiq": 28.319034576416016,
+            "cer": 0.8304635761589404,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 14.598589944298451,
+            "ssim": 0.6104844042510961,
+            "lpips": 0.4749721884727478,
+            "musiq": 48.677589416503906,
+            "cer": 0.9271523178807948,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 13.5991626631707,
+            "ssim": 0.6111713028506015,
+            "lpips": 0.3347924351692199,
+            "musiq": 52.59335708618164,
+            "cer": 0.8211920529801324,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 14.016435281945068,
+            "ssim": 0.5844529440935285,
+            "lpips": 0.2264482975006103,
+            "musiq": 49.28202438354492,
+            "cer": 0.8,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.13055038452149,
+            "cer": 0.0397350993377483
+          }
+        },
+        "10": {
+          "bicubic": {
+            "psnr": 14.337603642480722,
+            "ssim": 0.4660490945494259,
+            "lpips": 0.8514479398727417,
+            "musiq": 22.95742416381836,
+            "cer": 0.8728476821192053,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrnet": {
+            "psnr": 13.907717599866649,
+            "ssim": 0.5111817275868609,
+            "lpips": 0.6504693627357483,
+            "musiq": 44.31877136230469,
+            "cer": 0.9562913907284768,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "realesrgan": {
+            "psnr": 12.977764422850042,
+            "ssim": 0.5382595436209556,
+            "lpips": 0.3086207509040832,
+            "musiq": 50.72800064086914,
+            "cer": 0.8397350993377484,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "resshift": {
+            "psnr": 13.545659786463746,
+            "ssim": 0.501124577298036,
+            "lpips": 0.209781676530838,
+            "musiq": 53.483924865722656,
+            "cer": 0.9509933774834436,
+            "arcface_sim": NaN,
+            "arcface_match": NaN
+          },
+          "hr": {
+            "musiq": 58.13055038452149,
+            "cer": 0.0397350993377483
+          }
+        }
+      },
+      "font": "DejaVuSansMono.ttf",
+      "font_size": 16,
+      "kind": "codes",
+      "reference_text_first_line": "C8D8SH XFSPKI UYFK3E MUS2YW 7R5DZV 1GV0E0",
+      "ocr_first_line": {
+        "bicubic": "Cee PFE! EVE ere ety levete",
+        "realesrnet": "Gten ou NOE msn Moor lots",
+        "realesrgan": "(ologr Ha) WTO mire NtAre Mole",
+        "resshift": "CORN OGRE VeNul Mundy YCOI tore"
+      },
+      "crop": [
+        0,
+        128,
+        128,
+        256
+      ],
+      "figure": "results/final/figures/failure_d_test.png"
+    }
+  ],
+  "notes": {}
+}

@@ -1,0 +1,139 @@
+{
+  "tolerance": {
+    "psnr": 0.01,
+    "ssim": 0.001,
+    "lpips": 0.001
+  },
+  "archive": "results/metrics_dev.csv",
+  "fresh": "results/final/metrics_dev.csv",
+  "devices": {
+    "bicubic": {
+      "device": "CPU, arm",
+      "key": {
+        "method": "bicubic",
+        "weights_sha256": {},
+        "model_code_sha256": {}
+      }
+    },
+    "realesrnet": {
+      "device": "Apple GPU (MPS), arm",
+      "key": {
+        "method": "realesrnet",
+        "weights_sha256": {
+          "RealESRNet_x4plus.pth": "a820b9bde89a874d7599d545567308ce6c128fc8754a53208eda016d40aa81df"
+        },
+        "model_code_sha256": {
+          "code/models/rrdbnet.py": "2d9f0ddb8334df222ccb05a90a5ac5faf4602369361bf9154f83ccf8643784f4"
+        },
+        "settings": {
+          "model_config": {
+            "num_feat": 64,
+            "num_block": 23,
+            "num_grow_ch": 32
+          },
+          "precision": "float32"
+        }
+      }
+    },
+    "realesrgan": {
+      "device": "Apple GPU (MPS), arm",
+      "key": {
+        "method": "realesrgan",
+        "weights_sha256": {
+          "RealESRGAN_x4plus.pth": "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1"
+        },
+        "model_code_sha256": {
+          "code/models/rrdbnet.py": "2d9f0ddb8334df222ccb05a90a5ac5faf4602369361bf9154f83ccf8643784f4"
+        },
+        "settings": {
+          "model_config": {
+            "num_feat": 64,
+            "num_block": 23,
+            "num_grow_ch": 32
+          },
+          "precision": "float32"
+        }
+      }
+    }
+  },
+  "methods": {
+    "bicubic": {
+      "images": 256,
+      "archived_rows": 256,
+      "psnr": {
+        "max_abs_difference": 1.0658141036401503e-14,
+        "mean_abs_difference": 2.7755575615628914e-16,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "object_0887 jpeg 30"
+      },
+      "ssim": {
+        "max_abs_difference": 2.9898306053155466e-13,
+        "mean_abs_difference": 9.556439840852082e-14,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "object_0882 jpeg 10"
+      },
+      "lpips": {
+        "max_abs_difference": 0.0003533363342285156,
+        "mean_abs_difference": 9.768025483936245e-05,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "face_00030 jpeg 30"
+      },
+      "reproduced": true
+    },
+    "realesrnet": {
+      "images": 256,
+      "archived_rows": 256,
+      "psnr": {
+        "max_abs_difference": 0.0033967386992870274,
+        "mean_abs_difference": 0.0005707192506927278,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "face_00650 jpeg none"
+      },
+      "ssim": {
+        "max_abs_difference": 8.238912180313918e-05,
+        "mean_abs_difference": 1.504961017108797e-05,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "text_dev_009 jpeg 10"
+      },
+      "lpips": {
+        "max_abs_difference": 0.0003142803907393854,
+        "mean_abs_difference": 8.656823774799864e-05,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "text_dev_005 jpeg 10"
+      },
+      "reproduced": true
+    },
+    "realesrgan": {
+      "images": 256,
+      "archived_rows": 256,
+      "psnr": {
+        "max_abs_difference": 0.004894015769323801,
+        "mean_abs_difference": 0.0010307766775831187,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "face_00686 jpeg none"
+      },
+      "ssim": {
+        "max_abs_difference": 0.0001601537327940994,
+        "mean_abs_difference": 2.8818728887991312e-05,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "text_dev_009 jpeg 10"
+      },
+      "lpips": {
+        "max_abs_difference": 0.0004608333110809326,
+        "mean_abs_difference": 7.803196785972028e-05,
+        "within_tolerance": true,
+        "rows_outside": 0,
+        "worst": "face_00429 jpeg 10"
+      },
+      "reproduced": true
+    }
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "split": "dev",
+  "rules": {
+    "a": "text, any JPEG level; LPIPS ranks a generative method best of the 4 and its CER is the worst of the 4; take the case with the largest CER gap to the best-CER method",
+    "b": "faces, JPEG none; the lowest ArcFace similarity of any generative method (detection failures are listed separately)",
+    "c": "JPEG 10, any content; the largest PSNR deficit of a generative method below bicubic",
+    "d": "ResShift, HR font size 16, JPEG none; the highest ResShift CER, ties by the largest CER gap to Real-ESRNet",
+    "crop": "128x128 HR pixels centred on the maximum of the 31x31 box-filtered absolute Y error of the failing method",
+    "fallback": "if no image meets rule a, report \"no case\" and keep b, c and d"
+  },
+  "methods": [
+    "bicubic",
+    "realesrnet",
+    "realesrgan",
+    "resshift"
+  ],
+  "all_methods_present": true,
+  "cases": [
+    {
+      "rule": "a",
+      "image_id": "text_dev_018",
+      "jpeg": "50",
+      "method": "realesrgan",
+      "selection_value": 0.42705570291777195,
+      "selection": "CER gap to the best-CER method",
+      "eligible": 32,
+      "shown": [
+        "lpips",
+        "cer"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 15.687616060684938,
+          "ssim": 0.6352491621079673,
+          "lpips": 0.5261039137840271,
+          "musiq": 32.99503707885742,
+          "cer": 0.0901856763925729,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrnet": {
+          "psnr": 16.478849281840024,
+          "ssim": 0.7879693226455764,
+          "lpips": 0.2614378929138183,
+          "musiq": 45.08788299560547,
+          "cer": 0.1777188328912466,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrgan": {
+          "psnr": 14.569200275910116,
+          "ssim": 0.7649780581461981,
+          "lpips": 0.1616028845310211,
+          "musiq": 54.35628128051758,
+          "cer": 0.5172413793103449,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "resshift": {
+          "psnr": 16.25559180928298,
+          "ssim": 0.797390853245794,
+          "lpips": 0.1677852272987365,
+          "musiq": 54.1934814453125,
+          "cer": 0.3448275862068966,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "hr": {
+          "musiq": 57.31061553955078,
+          "cer": 0.0
+        }
+      },
+      "reference_text_first_line": "circle record learn animal common",
+      "ocr_first_line": {
+        "bicubic": "circle record Learn eninal commen",
+        "realesrnet": "Qrcle recont leam animal coanmn",
+        "realesrgan": "circlo racont len anim coone",
+        "resshift": "cLrcle cocoons Learn antinel cooemo"
+      },
+      "crop": [
+        208,
+        352,
+        336,
+        480
+      ],
+      "figure": "results/final/figures/failure_a_dev.png"
+    },
+    {
+      "rule": "b",
+      "image_id": "face_00429",
+      "jpeg": "none",
+      "method": "realesrgan",
+      "selection_value": 0.9284955145408026,
+      "selection": "lowest ArcFace similarity",
+      "detection_failures_jpeg_none": [],
+      "shown": [
+        "arcface_sim",
+        "psnr",
+        "lpips"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 31.615896922995237,
+          "ssim": 0.845658591705854,
+          "lpips": 0.3653774261474609,
+          "musiq": 31.088653564453125,
+          "cer": NaN,
+          "arcface_sim": 0.9753870584866022,
+          "arcface_match": 1.0
+        },
+        "realesrnet": {
+          "psnr": 32.050725207001946,
+          "ssim": 0.8659200069729972,
+          "lpips": 0.2850453555583954,
+          "musiq": 53.28947067260742,
+          "cer": NaN,
+          "arcface_sim": 0.957768155055822,
+          "arcface_match": 1.0
+        },
+        "realesrgan": {
+          "psnr": 30.14832476859179,
+          "ssim": 0.8281865779897813,
+          "lpips": 0.2048318088054657,
+          "musiq": 63.09486389160156,
+          "cer": NaN,
+          "arcface_sim": 0.9284955145408026,
+          "arcface_match": 1.0
+        },
+        "resshift": {
+          "psnr": 30.810277092908834,
+          "ssim": 0.8286737963801153,
+          "lpips": 0.1379961967468261,
+          "musiq": 74.29280853271484,
+          "cer": NaN,
+          "arcface_sim": 0.9715144468415984,
+          "arcface_match": 1.0
+        },
+        "hr": {
+          "musiq": 75.11583709716797,
+          "cer": NaN
+        }
+      },
+      "crop": [
+        285,
+        0,
+        413,
+        128
+      ],
+      "figure": "results/final/figures/failure_b_dev.png"
+    },
+    {
+      "rule": "c",
+      "image_id": "text_dev_008",
+      "jpeg": "10",
+      "method": "realesrgan",
+      "selection_value": 2.8420336696836035,
+      "selection": "PSNR deficit below bicubic (dB)",
+      "shown": [
+        "psnr",
+        "ssim",
+        "lpips",
+        "cer"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 14.07597184857838,
+          "ssim": 0.4475675971639964,
+          "lpips": 0.8964027166366577,
+          "musiq": 21.4134521484375,
+          "cer": 1.0,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrnet": {
+          "psnr": 12.720401393432956,
+          "ssim": 0.4524247607892911,
+          "lpips": 0.7106357216835022,
+          "musiq": 36.93347930908203,
+          "cer": 0.98659793814433,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrgan": {
+          "psnr": 11.233938178894777,
+          "ssim": 0.4429516720866283,
+          "lpips": 0.5035848617553711,
+          "musiq": 57.88218688964844,
+          "cer": 0.8154639175257732,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "resshift": {
+          "psnr": 13.199256034716846,
+          "ssim": 0.4883287464235383,
+          "lpips": 0.192576915025711,
+          "musiq": 56.97347259521485,
+          "cer": 0.9371134020618556,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "hr": {
+          "musiq": 56.52605438232422,
+          "cer": 0.0
+        }
+      },
+      "reference_text_first_line": "bridge become wonder golden until space quick camera",
+      "ocr_first_line": {
+        "bicubic": "",
+        "realesrnet": "$$$, \u2014",
+        "realesrgan": "SF rr iri re",
+        "resshift": "ArnO.CLUE epee"
+      },
+      "crop": [
+        180,
+        156,
+        308,
+        284
+      ],
+      "figure": "results/final/figures/failure_c_dev.png"
+    },
+    {
+      "rule": "d",
+      "image_id": "text_dev_001",
+      "jpeg": "none",
+      "method": "resshift",
+      "selection_value": 0.7386215864759428,
+      "selection": "highest ResShift CER at HR font size 16",
+      "shown": [
+        "cer",
+        "psnr",
+        "lpips"
+      ],
+      "values": {
+        "bicubic": {
+          "psnr": 14.675090608343933,
+          "ssim": 0.5290916543366092,
+          "lpips": 0.5872683525085449,
+          "musiq": 33.92057418823242,
+          "cer": 0.7334200260078023,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrnet": {
+          "psnr": 14.849799346792668,
+          "ssim": 0.6372929774741456,
+          "lpips": 0.3070939183235168,
+          "musiq": 43.86677551269531,
+          "cer": 0.7204161248374512,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "realesrgan": {
+          "psnr": 12.8503890656617,
+          "ssim": 0.5918512665878441,
+          "lpips": 0.2007591277360916,
+          "musiq": 52.50653839111328,
+          "cer": 0.7919375812743823,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "resshift": {
+          "psnr": 14.779061209379474,
+          "ssim": 0.6707946541869908,
+          "lpips": 0.1668469309806823,
+          "musiq": 50.50449752807617,
+          "cer": 0.7386215864759428,
+          "arcface_sim": NaN,
+          "arcface_match": NaN
+        },
+        "hr": {
+          "musiq": 56.96891021728515,
+          "cer": 0.0351105331599479
+        }
+      },
+      "reference_text_first_line": "EC5UN3 B1RAJT TIXUNR S8RC3K ZE0A5B LDPFWF",
+      "ocr_first_line": {
+        "bicubic": "CAD) OLkgT TOA seme oe Ptease LORI",
+        "realesrnet": "COUAO 2104 TULA LemC le 21 CASS LOFT",
+        "realesrgan": "(COWL OT PUAN WoCie aes oot",
+        "resshift": "COHLOO A WUY? TOOUtsl BAACAL 2TOIDO LOM"
+      },
+      "crop": [
+        200,
+        384,
+        328,
+        512
+      ],
+      "figure": "results/final/figures/failure_d_dev.png"
+    }
+  ],
+  "notes": {}
+}

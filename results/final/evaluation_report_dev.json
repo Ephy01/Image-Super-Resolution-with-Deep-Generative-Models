@@ -1,0 +1,132 @@
+{
+  "split": "dev",
+  "images": 64,
+  "methods": [
+    "bicubic",
+    "realesrnet",
+    "realesrgan",
+    "resshift"
+  ],
+  "rows": 1088,
+  "config": "final.yaml",
+  "config_sha256": "70f6c341e963a068e901be19d9dc11f36cc5df078ef04dfaf9df0846abbb1059",
+  "psnr_ssim": "Y channel (BT.601), 4-pixel border crop",
+  "lpips": "AlexNet",
+  "musiq": {
+    "metric": "musiq",
+    "checkpoint": {
+      "file": "musiq_koniq_ckpt-e95806b9.pth",
+      "sha256": "e95806b9eae5f3814c410f574ba8e552362bd5bc63d758ed5b97860f5d6185aa"
+    },
+    "device": "cpu"
+  },
+  "ocr": {
+    "psm": 4,
+    "oem": 1,
+    "preprocess": "none",
+    "lang": "eng",
+    "tesseract": "tesseract 5.5.1",
+    "tessdata_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+  },
+  "arcface": {
+    "det_size": 512,
+    "threshold": 0.1819307956740638,
+    "models_sha256": {
+      "1k3d68.onnx": "df5c06b8a0c12e422b2ed8947b8869faa4105387f199c477af038aa01f9a45cc",
+      "2d106det.onnx": "f001b856447c413801ef5c42091ed0cd516fcd21f2d6b79635b1e733a7109dbf",
+      "det_10g.onnx": "5838f7fe053675b1c7a08b633df49e7af5495cee0493c7dcf6697200b85b5b91",
+      "genderage.onnx": "4fde69b1c810857b88c64a335084f1c3fe8f01246c9a191b48c7bb756d6652fb",
+      "w600k_r50.onnx": "4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43"
+    },
+    "detection_failures": {
+      "hr/jpeg_none": 0,
+      "bicubic/jpeg_none": 0,
+      "bicubic/jpeg_50": 0,
+      "bicubic/jpeg_30": 0,
+      "bicubic/jpeg_10": 1,
+      "realesrnet/jpeg_none": 0,
+      "realesrnet/jpeg_50": 0,
+      "realesrnet/jpeg_30": 0,
+      "realesrnet/jpeg_10": 1,
+      "realesrgan/jpeg_none": 0,
+      "realesrgan/jpeg_50": 0,
+      "realesrgan/jpeg_30": 0,
+      "realesrgan/jpeg_10": 1,
+      "resshift/jpeg_none": 0,
+      "resshift/jpeg_50": 0,
+      "resshift/jpeg_30": 0,
+      "resshift/jpeg_10": 0
+    }
+  },
+  "confidence_interval": "95% percentile bootstrap [lo, hi], 10000 resamples, seed 42 per interval",
+  "outputs": {
+    "bicubic": {
+      "device": "CPU, x86_64",
+      "key": {
+        "method": "bicubic",
+        "weights_sha256": {},
+        "model_code_sha256": {}
+      }
+    },
+    "realesrnet": {
+      "device": "Tesla T4",
+      "key": {
+        "method": "realesrnet",
+        "weights_sha256": {
+          "RealESRNet_x4plus.pth": "a820b9bde89a874d7599d545567308ce6c128fc8754a53208eda016d40aa81df"
+        },
+        "model_code_sha256": {
+          "code/models/rrdbnet.py": "2d9f0ddb8334df222ccb05a90a5ac5faf4602369361bf9154f83ccf8643784f4"
+        },
+        "settings": {
+          "model_config": {
+            "num_feat": 64,
+            "num_block": 23,
+            "num_grow_ch": 32
+          },
+          "precision": "float32"
+        }
+      }
+    },
+    "realesrgan": {
+      "device": "Tesla T4",
+      "key": {
+        "method": "realesrgan",
+        "weights_sha256": {
+          "RealESRGAN_x4plus.pth": "4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1"
+        },
+        "model_code_sha256": {
+          "code/models/rrdbnet.py": "2d9f0ddb8334df222ccb05a90a5ac5faf4602369361bf9154f83ccf8643784f4"
+        },
+        "settings": {
+          "model_config": {
+            "num_feat": 64,
+            "num_block": 23,
+            "num_grow_ch": 32
+          },
+          "precision": "float32"
+        }
+      }
+    },
+    "resshift": {
+      "device": "Tesla T4",
+      "key": {
+        "method": "resshift",
+        "weights_sha256": {
+          "resshift_realsrx4_s4_v3.pth": "878da888bbbe10b8b0d4ff179c2de3059fd8a4cf2c705942a77a7f3b23ea1efd",
+          "autoencoder_vq_f4.pth": "e967eaa2c380152811c53e312990d6967a8a957c4f7590f19490ec72110b2889"
+        },
+        "model_code_sha256": {
+          "code/models/resshift.py": "17cddf4f507dec3582c90a06039f1be92f6c0e61e74208776536ec26e99d5ed1"
+        },
+        "settings": {
+          "version": "v3",
+          "official_commit": "bb03b7d21614cace01787e097c8a6ab6b945227d",
+          "amp": true,
+          "seed_offset": 0,
+          "seed_policy": "(crc32(image_id) + offset) & 0x7fffffff, the same seed for every JPEG level"
+        }
+      }
+    }
+  }
+}

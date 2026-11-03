@@ -1,0 +1,225 @@
+[
+ {
+  "script": "code/datasets/download_data.py",
+  "args": [
+   "--seed",
+   "42",
+   "--only",
+   "data"
+  ],
+  "config": "final.yaml",
+  "seconds": 0.23060937505215406,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-01T22:36:24"
+ },
+ {
+  "script": "code/datasets/prepare_data.py",
+  "args": [
+   "--seed",
+   "42"
+  ],
+  "config": "final.yaml",
+  "seconds": 25.332024208037183,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-01T22:36:49"
+ },
+ {
+  "script": "code/models/upscale.py",
+  "args": [
+   "--split",
+   "dev",
+   "--methods",
+   "bicubic",
+   "realesrnet",
+   "realesrgan",
+   "--seed-offsets",
+   "0"
+  ],
+  "config": "final.yaml",
+  "seconds": 3.6448195830453187,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-01T22:39:28"
+ },
+ {
+  "script": "code/evaluation/evaluate.py",
+  "args": [
+   "--split",
+   "dev"
+  ],
+  "config": "final.yaml",
+  "seconds": 648.285694958875,
+  "machine": "Darwin arm64 arm",
+  "cache": "/private/tmp/claude-501/-Users-alenapetrenko-Library-Application-Support-Claude-scratch-workspaces-87ef7bf3-919f-4fb4-b4eb-7dcd4e4a2162-23277b66-6217-4c8d-8c35-78d2b832658d-scratch-2026-11-01-a66f41/6cfd3d13-941d-405d-b926-1f772b1c5b6a/scratchpad/cache_timing",
+  "finished": "2026-11-01T22:47:51"
+ },
+ {
+  "script": "code/evaluation/analyze.py",
+  "args": [
+   "--split",
+   "dev"
+  ],
+  "config": "final.yaml",
+  "seconds": 6.309373958967626,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-01T22:51:25"
+ },
+ {
+  "script": "code/models/upscale.py",
+  "args": [
+   "--split",
+   "dev",
+   "--methods",
+   "bicubic",
+   "--seed-offsets",
+   "0"
+  ],
+  "config": "final.yaml",
+  "seconds": 2.0289722078014165,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-01T22:51:38"
+ },
+ {
+  "script": "code/evaluation/analyze.py",
+  "args": [
+   "--split",
+   "dev"
+  ],
+  "config": "final.yaml",
+  "seconds": 5.926905415952206,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-01T22:52:26"
+ },
+ {
+  "script": "code/evaluation/evaluate.py",
+  "args": [
+   "--split",
+   "dev"
+  ],
+  "config": "final.yaml",
+  "seconds": 746.9353325408883,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T15:19:59"
+ },
+ {
+  "script": "code/evaluation/analyze.py",
+  "args": [
+   "--split",
+   "dev"
+  ],
+  "config": "final.yaml",
+  "seconds": 8.135017875116318,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T15:21:11"
+ },
+ {
+  "script": "code/evaluation/evaluate.py",
+  "args": [
+   "--split",
+   "test"
+  ],
+  "config": "final.yaml",
+  "seconds": 4279.2188333752565,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T16:34:03"
+ },
+ {
+  "script": "code/evaluation/analyze.py",
+  "args": [
+   "--split",
+   "test"
+  ],
+  "config": "final.yaml",
+  "seconds": 15.789652832783759,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T16:39:19"
+ },
+ {
+  "script": "code/evaluation/evaluate.py",
+  "args": [
+   "--split",
+   "test",
+   "--methods",
+   "resshift_seed1",
+   "resshift_seed2",
+   "resshift_seed3",
+   "resshift_seed4",
+   "--tag",
+   "_seeds"
+  ],
+  "config": "final.yaml",
+  "seconds": 965.9632075843401,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T16:57:32"
+ },
+ {
+  "script": "code/evaluation/evaluate.py",
+  "args": [
+   "--split",
+   "test"
+  ],
+  "config": "final.yaml",
+  "seconds": 3138.1388156670146,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T17:33:44"
+ },
+ {
+  "script": "code/evaluation/evaluate.py",
+  "args": [
+   "--split",
+   "dev"
+  ],
+  "config": "final.yaml",
+  "seconds": 131.19195945886895,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T17:35:55"
+ },
+ {
+  "script": "code/evaluation/analyze.py",
+  "args": [
+   "--split",
+   "dev"
+  ],
+  "config": "final.yaml",
+  "seconds": 7.031318416818976,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T17:36:20"
+ },
+ {
+  "script": "code/evaluation/analyze.py",
+  "args": [
+   "--split",
+   "test"
+  ],
+  "config": "final.yaml",
+  "seconds": 7.366513499990106,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T17:36:27"
+ },
+ {
+  "script": "code/evaluation/analyze.py",
+  "args": [
+   "--split",
+   "test"
+  ],
+  "config": "final.yaml",
+  "seconds": 8.0634985412471,
+  "machine": "Darwin arm64 arm",
+  "cache": "/Users/alenapetrenko/Image-Super-Resolution-with-Deep-Generative-Models/data/cache",
+  "finished": "2026-11-03T17:37:28"
+ }
+]

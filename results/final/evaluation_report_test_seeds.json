@@ -1,0 +1,144 @@
+{
+  "split": "test",
+  "images": 276,
+  "methods": [
+    "resshift_seed1",
+    "resshift_seed2",
+    "resshift_seed3",
+    "resshift_seed4"
+  ],
+  "rows": 4692,
+  "config": "final.yaml",
+  "config_sha256": "70f6c341e963a068e901be19d9dc11f36cc5df078ef04dfaf9df0846abbb1059",
+  "psnr_ssim": "Y channel (BT.601), 4-pixel border crop",
+  "lpips": "AlexNet",
+  "musiq": {
+    "metric": "musiq",
+    "checkpoint": {
+      "file": "musiq_koniq_ckpt-e95806b9.pth",
+      "sha256": "e95806b9eae5f3814c410f574ba8e552362bd5bc63d758ed5b97860f5d6185aa"
+    },
+    "device": "cpu"
+  },
+  "ocr": {
+    "psm": 4,
+    "oem": 1,
+    "preprocess": "none",
+    "lang": "eng",
+    "tesseract": "tesseract 5.5.1",
+    "tessdata_sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+  },
+  "arcface": {
+    "det_size": 512,
+    "threshold": 0.1819307956740638,
+    "models_sha256": {
+      "1k3d68.onnx": "df5c06b8a0c12e422b2ed8947b8869faa4105387f199c477af038aa01f9a45cc",
+      "2d106det.onnx": "f001b856447c413801ef5c42091ed0cd516fcd21f2d6b79635b1e733a7109dbf",
+      "det_10g.onnx": "5838f7fe053675b1c7a08b633df49e7af5495cee0493c7dcf6697200b85b5b91",
+      "genderage.onnx": "4fde69b1c810857b88c64a335084f1c3fe8f01246c9a191b48c7bb756d6652fb",
+      "w600k_r50.onnx": "4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43"
+    },
+    "detection_failures": {
+      "hr/jpeg_none": 0,
+      "resshift_seed1/jpeg_none": 0,
+      "resshift_seed1/jpeg_50": 0,
+      "resshift_seed1/jpeg_30": 0,
+      "resshift_seed1/jpeg_10": 0,
+      "resshift_seed2/jpeg_none": 0,
+      "resshift_seed2/jpeg_50": 0,
+      "resshift_seed2/jpeg_30": 0,
+      "resshift_seed2/jpeg_10": 0,
+      "resshift_seed3/jpeg_none": 0,
+      "resshift_seed3/jpeg_50": 0,
+      "resshift_seed3/jpeg_30": 0,
+      "resshift_seed3/jpeg_10": 0,
+      "resshift_seed4/jpeg_none": 0,
+      "resshift_seed4/jpeg_50": 0,
+      "resshift_seed4/jpeg_30": 0,
+      "resshift_seed4/jpeg_10": 0
+    }
+  },
+  "confidence_interval": "95% percentile bootstrap [lo, hi], 10000 resamples, seed 42 per interval",
+  "outputs": {
+    "resshift_seed1": {
+      "device": "Tesla T4",
+      "key": {
+        "method": "resshift",
+        "weights_sha256": {
+          "resshift_realsrx4_s4_v3.pth": "878da888bbbe10b8b0d4ff179c2de3059fd8a4cf2c705942a77a7f3b23ea1efd",
+          "autoencoder_vq_f4.pth": "e967eaa2c380152811c53e312990d6967a8a957c4f7590f19490ec72110b2889"
+        },
+        "model_code_sha256": {
+          "code/models/resshift.py": "17cddf4f507dec3582c90a06039f1be92f6c0e61e74208776536ec26e99d5ed1"
+        },
+        "settings": {
+          "version": "v3",
+          "official_commit": "bb03b7d21614cace01787e097c8a6ab6b945227d",
+          "amp": true,
+          "seed_offset": 1,
+          "seed_policy": "(crc32(image_id) + offset) & 0x7fffffff, the same seed for every JPEG level"
+        }
+      }
+    },
+    "resshift_seed2": {
+      "device": "Tesla T4",
+      "key": {
+        "method": "resshift",
+        "weights_sha256": {
+          "resshift_realsrx4_s4_v3.pth": "878da888bbbe10b8b0d4ff179c2de3059fd8a4cf2c705942a77a7f3b23ea1efd",
+          "autoencoder_vq_f4.pth": "e967eaa2c380152811c53e312990d6967a8a957c4f7590f19490ec72110b2889"
+        },
+        "model_code_sha256": {
+          "code/models/resshift.py": "17cddf4f507dec3582c90a06039f1be92f6c0e61e74208776536ec26e99d5ed1"
+        },
+        "settings": {
+          "version": "v3",
+          "official_commit": "bb03b7d21614cace01787e097c8a6ab6b945227d",
+          "amp": true,
+          "seed_offset": 2,
+          "seed_policy": "(crc32(image_id) + offset) & 0x7fffffff, the same seed for every JPEG level"
+        }
+      }
+    },
+    "resshift_seed3": {
+      "device": "Tesla T4",
+      "key": {
+        "method": "resshift",
+        "weights_sha256": {
+          "resshift_realsrx4_s4_v3.pth": "878da888bbbe10b8b0d4ff179c2de3059fd8a4cf2c705942a77a7f3b23ea1efd",
+          "autoencoder_vq_f4.pth": "e967eaa2c380152811c53e312990d6967a8a957c4f7590f19490ec72110b2889"
+        },
+        "model_code_sha256": {
+          "code/models/resshift.py": "17cddf4f507dec3582c90a06039f1be92f6c0e61e74208776536ec26e99d5ed1"
+        },
+        "settings": {
+          "version": "v3",
+          "official_commit": "bb03b7d21614cace01787e097c8a6ab6b945227d",
+          "amp": true,
+          "seed_offset": 3,
+          "seed_policy": "(crc32(image_id) + offset) & 0x7fffffff, the same seed for every JPEG level"
+        }
+      }
+    },
+    "resshift_seed4": {
+      "device": "Tesla T4",
+      "key": {
+        "method": "resshift",
+        "weights_sha256": {
+          "resshift_realsrx4_s4_v3.pth": "878da888bbbe10b8b0d4ff179c2de3059fd8a4cf2c705942a77a7f3b23ea1efd",
+          "autoencoder_vq_f4.pth": "e967eaa2c380152811c53e312990d6967a8a957c4f7590f19490ec72110b2889"
+        },
+        "model_code_sha256": {
+          "code/models/resshift.py": "17cddf4f507dec3582c90a06039f1be92f6c0e61e74208776536ec26e99d5ed1"
+        },
+        "settings": {
+          "version": "v3",
+          "official_commit": "bb03b7d21614cace01787e097c8a6ab6b945227d",
+          "amp": true,
+          "seed_offset": 4,
+          "seed_policy": "(crc32(image_id) + offset) & 0x7fffffff, the same seed for every JPEG level"
+        }
+      }
+    }
+  }
+}

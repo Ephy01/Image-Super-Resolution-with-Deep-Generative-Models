@@ -1,0 +1,102 @@
+# Working settings for the dev split. Values marked "selected on dev" are filled in by
+# code/evaluation/select_settings.py and copied into configs/final.yaml, which is frozen before the test run.
+
+paths:                       # environment variables SR_DATA, SR_WEIGHTS, ... override these (see paths.py)
+  data: data
+  weights: models
+  outputs: outputs
+  results: results
+  third_party: third_party
+  cache: data/cache
+
+data:                        # must match the constants in code/datasets/prepare_data.py (checked at run time)
+  seed: 42
+  hr_size: 512
+  scale: 4
+  jpeg_qualities: [none, 50, 30, 10]
+  jpeg_subsampling: 2        # Pillow code for 4:2:0
+
+methods: [bicubic, realesrnet, realesrgan, resshift]
+
+rrdbnet:
+  weights: {realesrnet: RealESRNet_x4plus.pth, realesrgan: RealESRGAN_x4plus.pth}
+  precision: float32
+  batch_size: 1
+  tiling: none
+
+resshift:
+  version: v3
+  official_commit: bb03b7d21614cace01787e097c8a6ab6b945227d
+  model_weights: resshift_realsrx4_s4_v3.pth
+  autoencoder_weights: autoencoder_vq_f4.pth
+  steps: 4                   # fixed by the v3 checkpoint
+  precision: float32 weights, float16 autocast
+  amp: true
+  seed_policy: (crc32(image_id) + offset) & 0x7fffffff, the same seed for every JPEG level
+  seed_offset: 0             # offset 0 is the stage 4 seed policy
+  seed_offsets: [0, 1, 2, 3, 4]
+
+runtime:
+  warmup_runs: 3
+  bicubic_device: cpu
+
+metrics:
+  psnr_ssim: {channel: Y (BT.601), crop_border: 4}
+  lpips: {net: alex, version: "0.1"}
+  musiq:
+    library: pyiqa
+    metric: musiq            # pyiqa default for musiq: the KonIQ-10k checkpoint
+    device: cpu
+    checkpoint: null         # file name and SHA-256 are recorded by select_settings.py
+  ocr:
+    engine: tesseract
+    lang: eng
+    normalisation: collapse every whitespace run to one space, strip; case-sensitive
+    cer: Levenshtein distance / reference length, not capped
+    candidates:
+      psm: [3, 4, 6]
+      oem: [1, 3]
+      preprocess: [none, otsu, upscale2_otsu]
+    selected: null           # selected on dev HR images: lowest mean CER, ties broken by list order
+  arcface:
+    library: insightface
+    model_pack: buffalo_l    # SCRFD-10GF detector + ResNet-50 ArcFace (WebFace600K)
+    det_size_candidates: [512, 640, 320]   # selected on dev: fewest HR detection failures, ties by this order
+    det_size: null
+    det_thresh: 0.5
+    face: largest detected face
+    false_match_rate: 0.01
+    threshold: null          # selected on dev: impostor pairs (HR vs HR, different faces), quantile 0.99 (method "higher")
+    match: similarity > threshold
+    detection_failure: similarity missing (excluded from the mean, counted); counted as a non-match in the match rate
+
+statistics:
+  bootstrap_samples: 10000
+  seed: 42
+  confidence: 0.95
+  interval: percentile endpoints [lo, hi]
+  correction: none (pointwise intervals)
+
+# Analyses, written before the test run. "lo > 0" means the lower end of the 95% interval is above zero.
+analysis:
+  generative: [realesrgan, resshift]
+  reference: realesrnet          # non-generative network with the same architecture and data as Real-ESRGAN
+  jpeg_hypothesis:
+    statement: all models degrade sharply below JPEG quality 30
+    per_image: drop_low = M(30) - M(10), drop_high = M(50) - M(30), signed so that a positive drop is a loss (LPIPS sign flipped)
+    statistic: mean of (drop_low - drop_high) over images, paired percentile bootstrap
+    metrics: [psnr, ssim, lpips]
+    verdict: supported if lo > 0 for all 3 metrics; not supported if lo > 0 for none; mixed otherwise
+    unit: each method x content type
+  hypothesis_checks:
+    sharper_but_lower_psnr: generative - reference, JPEG none and 10; LPIPS hi < 0, MUSIQ lo > 0, PSNR hi < 0
+    invented_letters: generative - reference on text, JPEG none and 10, also by HR font size; CER lo > 0 while LPIPS hi < 0
+    identity_change: generative - reference on faces, JPEG none and 10; ArcFace similarity hi < 0; match rate reported
+    jpeg_below_30: see jpeg_hypothesis
+  failure_cases:
+    a: text, any JPEG level; LPIPS ranks a generative method best of the 4 and its CER is the worst of the 4; take the case with the largest CER gap to the best-CER method
+    b: faces, JPEG none; the lowest ArcFace similarity of any generative method (detection failures are listed separately)
+    c: JPEG 10, any content; the largest PSNR deficit of a generative method below bicubic
+    d: ResShift, HR font size 16, JPEG none; the highest ResShift CER, ties by the largest CER gap to Real-ESRNet
+    crop: 128x128 HR pixels centred on the maximum of the 31x31 box-filtered absolute Y error of the failing method
+    fallback: if no image meets rule a, report "no case" and keep b, c and d

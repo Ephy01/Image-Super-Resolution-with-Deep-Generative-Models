@@ -1,0 +1,17 @@
+{
+  "split": "dev",
+  "metric": "musiq",
+  "device": "cpu",
+  "checkpoint": {
+    "file": "musiq_koniq_ckpt-e95806b9.pth",
+    "sha256": "e95806b9eae5f3814c410f574ba8e552362bd5bc63d758ed5b97860f5d6185aa"
+  },
+  "repeatability": {
+    "image_id": "object_0804",
+    "first": 72.2833023071289,
+    "second": 72.2833023071289,
+    "identical": true
+  },
+  "input": "RGB in [0, 1], full 512x512 image",
+  "higher_is_better": true
+}

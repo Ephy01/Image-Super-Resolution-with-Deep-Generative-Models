@@ -14,15 +14,22 @@ from PIL import Image
 from tqdm import tqdm
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(str(PROJECT_ROOT))
 sys.path.insert(0, str(PROJECT_ROOT / "code" / "datasets"))
 sys.path.insert(0, str(PROJECT_ROOT / "code" / "models"))
+import paths
+from download_data import read_checksums
+from extra_metrics import ArcFace, Musiq, Ocr, cosine
 from prepare_data import HR_DIR, JPEG_QUALITIES, PROCESSED_DIR, SCALE
 from upscale import METHODS, OUTPUTS_DIR, RESULTS_DIR, pick_device
 
-METRICS = ["psnr", "ssim", "lpips"]
+CONFIG = paths.load_config()
+FINAL_DIR = RESULTS_DIR / "final"
+METRICS = ["psnr", "ssim", "lpips", "musiq", "cer", "arcface_sim", "arcface_match"]
 CROP_BORDER = SCALE
-BOOTSTRAP_SAMPLES = 10000
-CONFIDENCE = 0.95
+BOOTSTRAP_SAMPLES = CONFIG["statistics"]["bootstrap_samples"]
+CONFIDENCE = CONFIG["statistics"]["confidence"]
+SEED = CONFIG["statistics"]["seed"]
 
 os.environ.setdefault("SSL_CERT_FILE", certifi.where())
 
@@ -87,105 +94,208 @@ def check_metrics(target, lpips_model, device):
     assert compute_lpips(target, target, lpips_model, device) < 1e-6
 
 
-def evaluate_split(split, manifest, lpips_model, device):
+def check_outputs(split, folder, image_ids):
+    """Outputs must come from the checksummed weights and from exactly the current input files."""
+    output_root = OUTPUTS_DIR / split / folder
+    manifest_path = output_root / "manifest.json"
+    if not manifest_path.exists():
+        raise SystemExit(f"{manifest_path} is missing: run inference.py for {folder} on {split} first")
+    manifest = json.loads(manifest_path.read_text())
+    checksums = read_checksums()
+    for name, digest in manifest["key"]["weights_sha256"].items():
+        if checksums.get(name) != digest:
+            raise SystemExit(f"{folder}: outputs were made with {name} {digest[:12]}, scripts/SHA256SUMS has {checksums.get(name, 'none')[:12]}")
+    inputs = json.loads((PROCESSED_DIR / "inputs_sha256.json").read_text())
+    for quality in JPEG_QUALITIES:
+        for image_id in image_ids:
+            name = f"jpeg_{quality}/{image_id}.png"
+            entry = manifest["files"].get(name)
+            if entry is None:
+                raise SystemExit(f"{folder}: {name} is not in {manifest_path}")
+            if entry["input_sha256"] != inputs[f"lr/{name}"]:
+                raise SystemExit(f"{folder}: {name} was made from a different input than data/processed/lr/{name}")
+            if paths.sha256_file(output_root / name) != entry["output_sha256"]:
+                raise SystemExit(f"{folder}: {output_root / name} changed after it was written")
+    return {"device": manifest["device"], "key": manifest["key"]}
+
+
+class Scorers:
+    def __init__(self, device):
+        metrics = CONFIG["metrics"]
+        self.device = device
+        self.lpips = lpips.LPIPS(net=metrics["lpips"]["net"], verbose=False).eval().to(device)
+        self.musiq = Musiq(metrics["musiq"])
+        self.ocr = Ocr(metrics["ocr"])
+        self.arcface = ArcFace(metrics["arcface"])
+        self.threshold = metrics["arcface"]["threshold"]
+        if self.threshold is None or metrics["ocr"]["selected"] is None or metrics["arcface"]["det_size"] is None:
+            raise SystemExit("OCR and ArcFace settings are not selected: run code/evaluation/select_settings.py and use configs/final.yaml")
+
+    def save(self):
+        self.musiq.save()
+        self.ocr.save()
+        self.arcface.save()
+
+    def reference(self, image):
+        path = HR_DIR / f"{image.image_id}.png"
+        row = {"musiq": self.musiq(path)}
+        if image.content == "text":
+            row["cer"] = self.ocr.cer(path, image.text)
+        if image.content == "faces":
+            row["arcface_detected"] = self.arcface.embed(path) is not None
+        return row
+
+    def score(self, image, path):
+        target = load_image(HR_DIR / f"{image.image_id}.png")
+        output = load_image(path)
+        row = {
+            "psnr": compute_psnr(output, target),
+            "ssim": compute_ssim(output, target),
+            "lpips": compute_lpips(output, target, self.lpips, self.device),
+            "musiq": self.musiq(path),
+        }
+        if image.content == "text":
+            row["cer"] = self.ocr.cer(path, image.text)
+        if image.content == "faces":
+            embedding = self.arcface.embed(path)
+            reference = self.arcface.embed(HR_DIR / f"{image.image_id}.png")
+            similarity = cosine(embedding, reference)
+            row["arcface_detected"] = embedding is not None
+            row["arcface_sim"] = similarity
+            # A detection failure counts as a non-match; its similarity stays missing.
+            row["arcface_match"] = float(similarity > self.threshold) if embedding is not None and reference is not None else 0.0
+        return row
+
+
+def evaluate_split(split, manifest, scorers, methods=METHODS):
     rows = []
     images = manifest[manifest["split"] == split]
-    for method in METHODS:
+    for image in tqdm(images.itertuples(), total=len(images), desc="hr reference"):
+        rows.append({"image_id": image.image_id, "content": image.content, "method": "hr", "jpeg": "none",
+                     "font_size": image.font_size, **scorers.reference(image)})
+    for method in methods:
         for quality in JPEG_QUALITIES:
             output_dir = OUTPUTS_DIR / split / method / f"jpeg_{quality}"
             for image in tqdm(images.itertuples(), total=len(images), desc=f"{method} jpeg_{quality}"):
-                target = load_image(HR_DIR / f"{image.image_id}.png")
-                output = load_image(output_dir / f"{image.image_id}.png")
                 rows.append({
                     "image_id": image.image_id,
                     "content": image.content,
                     "method": method,
                     "jpeg": str(quality),
-                    "psnr": compute_psnr(output, target),
-                    "ssim": compute_ssim(output, target),
-                    "lpips": compute_lpips(output, target, lpips_model, device),
+                    "font_size": image.font_size,
+                    **scorers.score(image, output_dir / f"{image.image_id}.png"),
                 })
-    return pd.DataFrame(rows)
+        scorers.save()
+    return pd.DataFrame(rows).reindex(columns=["image_id", "content", "method", "jpeg", "font_size", *METRICS, "arcface_detected"])
 
 
-def bootstrap_interval(values, generator):
-    values = np.asarray(values)
+def bootstrap_interval(values, generator=None):
+    """95% percentile bootstrap interval of the mean: (lo, hi). Missing values are dropped first."""
+    values = np.asarray(values, dtype=float)
+    values = values[~np.isnan(values)]
+    if len(values) == 0:
+        return float("nan"), float("nan")
+    generator = generator or np.random.default_rng(SEED)
     indices = generator.integers(0, len(values), size=(BOOTSTRAP_SAMPLES, len(values)))
     means = values[indices].mean(axis=1)
     lower = np.quantile(means, (1 - CONFIDENCE) / 2)
     upper = np.quantile(means, 1 - (1 - CONFIDENCE) / 2)
-    return float((upper - lower) / 2)
+    return float(lower), float(upper)
 
 
-def summarize(metrics, seed):
-    generator = np.random.default_rng(seed)
+def describe(group, row):
+    """Mean, interval and count per metric; every interval uses its own generator seeded with SEED."""
+    for metric in METRICS:
+        values = group[metric].astype(float)
+        row[metric] = values.mean()
+        row[f"{metric}_lo"], row[f"{metric}_hi"] = bootstrap_interval(values)
+        row[f"{metric}_n"] = int(values.notna().sum())
+    return row
+
+
+def summarize(metrics, keys=("content", "jpeg", "method")):
     rows = []
-    groups = metrics.groupby(["content", "jpeg", "method"], sort=False)
-    for (content, quality, method), group in groups:
-        row = {"content": content, "jpeg": quality, "method": method, "images": len(group)}
-        for metric in METRICS:
-            row[metric] = group[metric].mean()
-            row[f"{metric}_ci"] = bootstrap_interval(group[metric], generator)
-        rows.append(row)
+    for values, group in metrics.groupby(list(keys), sort=False):
+        row = dict(zip(keys, values), images=len(group))
+        if "arcface_detected" in group and group["content"].iloc[0] == "faces":
+            row["arcface_detection_failures"] = int((~group["arcface_detected"].astype(bool)).sum())
+        rows.append(describe(group, row))
     return pd.DataFrame(rows)
 
 
-def compare_methods(metrics, baseline, method, seed):
-    generator = np.random.default_rng(seed)
-    keys = ["image_id", "content", "jpeg"]
-    first = metrics[metrics["method"] == baseline].set_index(keys)
-    second = metrics[metrics["method"] == method].set_index(keys)
+def compare_methods(metrics, baseline, method, keys=("content", "jpeg")):
+    """Paired differences method - baseline on the same image and JPEG level."""
+    index = ["image_id", *keys]
+    first = metrics[metrics["method"] == baseline].set_index(index)
+    second = metrics[metrics["method"] == method].set_index(index)
     differences = (second[METRICS] - first[METRICS]).reset_index()
 
     rows = []
-    for (content, quality), group in differences.groupby(["content", "jpeg"], sort=False):
-        row = {"content": content, "jpeg": quality, "comparison": f"{method} - {baseline}"}
-        for metric in METRICS:
-            row[metric] = group[metric].mean()
-            row[f"{metric}_ci"] = bootstrap_interval(group[metric], generator)
-        rows.append(row)
+    for values, group in differences.groupby(list(keys), sort=False):
+        rows.append(describe(group, dict(zip(keys, values), comparison=f"{method} - {baseline}")))
     return pd.DataFrame(rows)
 
 
-def main(split="dev", seed=42):
+COMPARISONS = [
+    ("bicubic", "realesrnet"), ("realesrnet", "realesrgan"), ("realesrnet", "resshift"),
+    ("realesrgan", "resshift"), ("bicubic", "realesrgan"), ("bicubic", "resshift"),
+]
+
+
+def main(split="dev", methods=None, tag=""):
     manifest = pd.read_csv(PROCESSED_DIR / "manifest.csv")
+    image_ids = manifest.loc[manifest["split"] == split, "image_id"].tolist()
+    if methods is None:
+        methods = [method for method in METHODS if (OUTPUTS_DIR / split / method / "manifest.json").exists()]
+    provenance = {method: check_outputs(split, method, image_ids) for method in methods}
+
     device = pick_device()
-    lpips_model = lpips.LPIPS(net="alex", verbose=False).eval().to(device)
+    scorers = Scorers(device)
+    check_metrics(load_image(HR_DIR / f"{image_ids[0]}.png"), scorers.lpips, device)
 
-    first_image = manifest.loc[manifest["split"] == split, "image_id"].iloc[0]
-    check_metrics(load_image(HR_DIR / f"{first_image}.png"), lpips_model, device)
+    metrics = evaluate_split(split, manifest, scorers, methods)
+    summary = summarize(metrics)
+    text = metrics[metrics["content"] == "text"]
+    by_size = summarize(text, keys=("font_size", "jpeg", "method"))
+    pairs = [(first, second) for first, second in COMPARISONS if first in methods and second in methods]
+    # A run with only the ResShift seed folders has no method pairs: the paired tables stay empty.
+    paired = pd.concat([compare_methods(metrics, first, second) for first, second in pairs], ignore_index=True) if pairs else pd.DataFrame()
+    paired_by_size = (pd.concat([compare_methods(text, first, second, keys=("font_size", "jpeg")) for first, second in pairs], ignore_index=True)
+                      if pairs else pd.DataFrame())
 
-    metrics = evaluate_split(split, manifest, lpips_model, device)
-    summary = summarize(metrics, seed)
+    FINAL_DIR.mkdir(parents=True, exist_ok=True)
+    metrics.to_csv(FINAL_DIR / f"metrics_{split}{tag}.csv", index=False)
+    summary.to_csv(FINAL_DIR / f"summary_{split}{tag}.csv", index=False)
+    by_size.to_csv(FINAL_DIR / f"summary_text_by_size_{split}{tag}.csv", index=False)
+    paired.to_csv(FINAL_DIR / f"paired_{split}{tag}.csv", index=False)
+    paired_by_size.to_csv(FINAL_DIR / f"paired_text_by_size_{split}{tag}.csv", index=False)
 
-    RESULTS_DIR.mkdir(exist_ok=True)
-    metrics.to_csv(RESULTS_DIR / f"metrics_{split}.csv", index=False)
-    summary.to_csv(RESULTS_DIR / f"summary_{split}.csv", index=False)
-    paired = pd.concat([
-        compare_methods(metrics, "realesrnet", "realesrgan", seed),
-        compare_methods(metrics, "realesrnet", "resshift", seed),
-        compare_methods(metrics, "bicubic", "realesrnet", seed),
-        compare_methods(metrics, "realesrgan", "resshift", seed),
-    ], ignore_index=True)
-    paired.to_csv(RESULTS_DIR / f"paired_{split}.csv", index=False)
-
+    faces = metrics[(metrics["content"] == "faces")]
     report = {
         "split": split,
-        "images": int(manifest["split"].eq(split).sum()),
+        "images": len(image_ids),
+        "methods": methods,
         "rows": len(metrics),
+        "config": paths.config_path().name,
+        "config_sha256": paths.sha256_file(paths.config_path()),
         "psnr_ssim": "Y channel (BT.601), 4-pixel border crop",
         "lpips": "AlexNet",
-        "confidence_interval": f"{CONFIDENCE:.0%} bootstrap half-width, {BOOTSTRAP_SAMPLES} resamples",
-        "seed": seed,
+        "musiq": {"metric": CONFIG["metrics"]["musiq"]["metric"], "checkpoint": scorers.musiq.checkpoint, "device": CONFIG["metrics"]["musiq"]["device"]},
+        "ocr": scorers.ocr.settings,
+        "arcface": {"det_size": scorers.arcface.cfg["det_size"], "threshold": scorers.threshold, "models_sha256": scorers.arcface.models,
+                    "detection_failures": {f"{method}/jpeg_{quality}": int((~group["arcface_detected"].astype(bool)).sum())
+                                           for (method, quality), group in faces.groupby(["method", "jpeg"], sort=False)}},
+        "confidence_interval": f"{CONFIDENCE:.0%} percentile bootstrap [lo, hi], {BOOTSTRAP_SAMPLES} resamples, seed {SEED} per interval",
+        "outputs": provenance,
     }
-    (RESULTS_DIR / f"evaluation_report_{split}.json").write_text(json.dumps(report, indent=2))
-    print(summary.round(4).to_string(index=False))
-    print(paired.round(4).to_string(index=False))
+    (FINAL_DIR / f"evaluation_report_{split}{tag}.json").write_text(json.dumps(report, indent=2, default=str))
+    print(summary[["content", "jpeg", "method", "psnr", "ssim", "lpips", "musiq", "cer", "arcface_sim", "arcface_match"]].round(4).to_string(index=False))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", default="dev", choices=["dev", "test"])
-    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--methods", nargs="+", default=None, help="output folders; default: every method with a manifest")
+    parser.add_argument("--tag", default="", help="suffix of the result files, e.g. _seeds")
     args = parser.parse_args()
-    main(args.split, args.seed)
+    main(args.split, args.methods, args.tag)

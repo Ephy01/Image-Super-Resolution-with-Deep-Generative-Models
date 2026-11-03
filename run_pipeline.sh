@@ -1,10 +1,11 @@
 set -euo pipefail
 cd "$(dirname "$0")"
+# Local dev pipeline with the frozen settings. ResShift on a CPU or Apple GPU is slow; the reported ResShift
+# runs and all T4 timings come from the notebooks in experiments/ (see README.md).
 PY=${PYTHON:-.venv/bin/python}
-bash code/models/setup_resshift.sh
-$PY code/datasets/download_data.py
-$PY code/datasets/prepare_data.py
-$PY code/models/upscale.py --split dev
-$PY code/evaluation/evaluate.py --split dev
-$PY code/evaluation/make_figures.py --split dev
-echo "Results: results/summary_dev.csv, results/figures/"
+CONFIG=${CONFIG:-configs/final.yaml}
+$PY prepare.py --config "$CONFIG"
+$PY inference.py --config "$CONFIG" --split dev
+$PY evaluate.py --config "$CONFIG" --split dev
+$PY analyze.py --config "$CONFIG" --split dev
+echo "Results: results/final/summary_dev.csv, results/analysis/, results/final/figures/"
