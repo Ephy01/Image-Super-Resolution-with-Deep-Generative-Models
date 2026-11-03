@@ -1,5 +1,6 @@
 import argparse
 import random
+import sys
 import zipfile
 from pathlib import Path
 
@@ -7,8 +8,12 @@ import requests
 from tqdm import tqdm
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-RAW_DIR = PROJECT_ROOT / "data" / "raw"
-MODELS_DIR = PROJECT_ROOT / "models"
+sys.path.append(str(PROJECT_ROOT))
+import paths
+
+RAW_DIR = paths.DATA_ROOT / "raw"
+MODELS_DIR = paths.WEIGHTS_ROOT
+SHA256SUMS = PROJECT_ROOT / "scripts" / "SHA256SUMS"
 
 DIV2K_URL = "https://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_valid_HR.zip"
 DIV2K_DIR = RAW_DIR / "DIV2K_valid_HR"
@@ -61,15 +66,36 @@ def download_faces(seed):
         download_file(FFHQ_URL.format(face_id), FFHQ_DIR / f"{face_id:05d}.png")
 
 
-def download_weights():
-    for name, url in WEIGHTS.items():
-        download_file(url, MODELS_DIR / name)
+def read_checksums(path=SHA256SUMS):
+    checksums = {}
+    for line in path.read_text().splitlines():
+        if line.strip() and not line.startswith("#"):
+            digest, name = line.split()
+            checksums[name] = digest
+    return checksums
 
 
-def main(seed=42):
-    download_div2k()
-    download_faces(seed)
-    download_weights()
+def verify_weights(names=None):
+    checksums = read_checksums()
+    for name in names or WEIGHTS:
+        actual = paths.sha256_file(MODELS_DIR / name)
+        if actual != checksums[name]:
+            raise SystemExit(f"checksum mismatch for {MODELS_DIR / name}: {actual} != {checksums[name]} (scripts/SHA256SUMS)")
+        print(f"{name}: OK")
+
+
+def download_weights(names=None):
+    for name in names or WEIGHTS:
+        download_file(WEIGHTS[name], MODELS_DIR / name)
+    verify_weights(names)
+
+
+def main(seed=42, only=("data", "weights")):
+    if "data" in only:
+        download_div2k()
+        download_faces(seed)
+    if "weights" in only:
+        download_weights()
     print(f"DIV2K images: {len(list(DIV2K_DIR.glob('*.png')))}")
     print(f"FFHQ images: {len(list(FFHQ_DIR.glob('*.png')))}")
     print(f"Weights: {sorted(path.name for path in MODELS_DIR.glob('*.pth'))}")
@@ -78,5 +104,6 @@ def main(seed=42):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--only", nargs="+", default=["data", "weights"], choices=["data", "weights"])
     args = parser.parse_args()
-    main(args.seed)
+    main(args.seed, args.only)

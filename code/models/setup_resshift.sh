@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/../.."
-REPO="third_party/ResShift"
+PY="${PYTHON:-python}"
+REPO="$("$PY" -c 'import paths; print(paths.THIRD_PARTY_ROOT)')/ResShift"
 COMMIT="bb03b7d21614cace01787e097c8a6ab6b945227d"
 
 if [ ! -d "$REPO/.git" ]; then

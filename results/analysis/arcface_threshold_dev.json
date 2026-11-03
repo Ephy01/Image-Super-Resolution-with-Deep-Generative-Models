@@ -1,0 +1,48 @@
+{
+  "split": "dev",
+  "images": 20,
+  "det_size_rule": "fewest HR detection failures on dev, ties by candidate order",
+  "hr_detection_failures_by_det_size": {
+    "512": [],
+    "640": [
+      "face_00030",
+      "face_00032",
+      "face_00089",
+      "face_00214",
+      "face_00223",
+      "face_00225",
+      "face_00565",
+      "face_00604",
+      "face_00650",
+      "face_00655",
+      "face_00714",
+      "face_00759"
+    ],
+    "320": []
+  },
+  "det_size": 512,
+  "hr_detection_failures": [],
+  "impostor_pairs": 190,
+  "rule": "0.99 quantile (method higher) of impostor similarities; match is similarity > threshold",
+  "threshold": 0.1819307956740638,
+  "false_match_rate_on_dev": 0.005263157894736842,
+  "impostor_similarity": {
+    "mean": 0.010796455464207029,
+    "max": 0.28010821176424977,
+    "quantiles": {
+      "0.5": 0.0095742945241536,
+      "0.9": 0.07945789023529061,
+      "0.95": 0.1010875841696166,
+      "0.99": 0.15741069096323884
+    }
+  },
+  "model_pack": "buffalo_l",
+  "models_sha256": {
+    "1k3d68.onnx": "df5c06b8a0c12e422b2ed8947b8869faa4105387f199c477af038aa01f9a45cc",
+    "2d106det.onnx": "f001b856447c413801ef5c42091ed0cd516fcd21f2d6b79635b1e733a7109dbf",
+    "det_10g.onnx": "5838f7fe053675b1c7a08b633df49e7af5495cee0493c7dcf6697200b85b5b91",
+    "genderage.onnx": "4fde69b1c810857b88c64a335084f1c3fe8f01246c9a191b48c7bb756d6652fb",
+    "w600k_r50.onnx": "4c06341c33c2ca1f86781dab0e829f88ad5b64be9fba56e56bc9ebdefc619e43"
+  },
+  "det_thresh": 0.5
+}

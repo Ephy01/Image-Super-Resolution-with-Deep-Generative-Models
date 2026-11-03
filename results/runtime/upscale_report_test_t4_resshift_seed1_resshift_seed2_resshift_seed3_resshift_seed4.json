@@ -1,0 +1,77 @@
+{
+  "split": "test",
+  "device": "Tesla T4",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "python": "3.13.16",
+  "precision": {
+    "bicubic": "uint8 (Pillow, CPU)",
+    "rrdbnet": "float32",
+    "resshift": "float32 weights, float16 autocast"
+  },
+  "batch_size": 1,
+  "input_size": 128,
+  "output_size": 512,
+  "rrdbnet_config": {
+    "num_feat": 64,
+    "num_block": 23,
+    "num_grow_ch": 32
+  },
+  "rrdbnet_weights": {
+    "realesrnet": "RealESRNet_x4plus.pth",
+    "realesrgan": "RealESRGAN_x4plus.pth"
+  },
+  "rrdbnet_parameters": 16697987,
+  "resshift_config": {
+    "version": "v3",
+    "model_weights": "resshift_realsrx4_s4_v3.pth",
+    "autoencoder_weights": "autoencoder_vq_f4.pth",
+    "amp": true,
+    "seed": 0
+  },
+  "config": "final.yaml",
+  "config_sha256": "70f6c341e963a068e901be19d9dc11f36cc5df078ef04dfaf9df0846abbb1059",
+  "methods": {
+    "resshift_seed1": {
+      "images": 1104,
+      "device": "Tesla T4",
+      "seconds_per_image_mean": 0.8734915520942039,
+      "seconds_per_image_median": 0.874722001499947,
+      "wall_seconds": 1082.71850923,
+      "warmup_runs": 3,
+      "peak_memory_allocated_mib": 2647.12451171875,
+      "peak_memory_reserved_mib": 3476.0
+    },
+    "resshift_seed2": {
+      "images": 1104,
+      "device": "Tesla T4",
+      "seconds_per_image_mean": 0.8810410300298881,
+      "seconds_per_image_median": 0.8803286739999976,
+      "wall_seconds": 1077.591897101,
+      "warmup_runs": 3,
+      "peak_memory_allocated_mib": 2645.76171875,
+      "peak_memory_reserved_mib": 3476.0
+    },
+    "resshift_seed3": {
+      "images": 1104,
+      "device": "Tesla T4",
+      "seconds_per_image_mean": 0.8819807181494536,
+      "seconds_per_image_median": 0.8808917389999351,
+      "wall_seconds": 1079.10994893,
+      "warmup_runs": 3,
+      "peak_memory_allocated_mib": 2645.76171875,
+      "peak_memory_reserved_mib": 3476.0
+    },
+    "resshift_seed4": {
+      "images": 1104,
+      "device": "Tesla T4",
+      "seconds_per_image_mean": 0.8831301126530771,
+      "seconds_per_image_median": 0.8817643784996108,
+      "wall_seconds": 1079.8846058899999,
+      "warmup_runs": 3,
+      "peak_memory_allocated_mib": 2645.76171875,
+      "peak_memory_reserved_mib": 3476.0
+    }
+  },
+  "split_wall_seconds": 4326.782632548
+}

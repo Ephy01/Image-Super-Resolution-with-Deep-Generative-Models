@@ -54,7 +54,8 @@ def make_line(kind, font, max_width, generator):
 
 
 def render_text_image(font_name, font_size, kind, generator):
-    font = ImageFont.truetype(str(FONT_DIR / font_name), font_size)
+    # BASIC layout: Pillow uses RAQM by default when libraqm is installed, which changes the pixels and the line breaks.
+    font = ImageFont.truetype(str(FONT_DIR / font_name), font_size, layout_engine=ImageFont.Layout.BASIC)
     image = Image.new("RGB", (IMAGE_SIZE, IMAGE_SIZE), "white")
     draw = ImageDraw.Draw(image)
 

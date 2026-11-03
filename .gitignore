@@ -11,3 +11,6 @@ models/*.pth
 outputs/
 reports/*.md
 third_party/
+!reports/stage5_final.md
+# metric model caches (pyiqa, insightface) and cached metric values
+data/cache/

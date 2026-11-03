@@ -1,0 +1,21 @@
+[
+ {
+  "script": "code/models/upscale.py",
+  "args": [
+   "--split",
+   "test",
+   "--methods",
+   "resshift",
+   "--seed-offsets",
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "config": "final.yaml",
+  "seconds": 4333.980416615001,
+  "machine": "Linux x86_64 x86_64",
+  "cache": "/tmp/sr/data/cache",
+  "finished": "2026-11-03T11:49:58"
+ }
+]

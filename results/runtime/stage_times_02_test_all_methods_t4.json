@@ -1,0 +1,21 @@
+[
+ {
+  "script": "code/models/upscale.py",
+  "args": [
+   "--split",
+   "test",
+   "--methods",
+   "bicubic",
+   "realesrnet",
+   "realesrgan",
+   "resshift",
+   "--seed-offsets",
+   "0"
+  ],
+  "config": "final.yaml",
+  "seconds": 1724.5986951959999,
+  "machine": "Linux x86_64 x86_64",
+  "cache": "/kaggle/working/sr/data/cache",
+  "finished": "2026-11-03T10:19:35"
+ }
+]

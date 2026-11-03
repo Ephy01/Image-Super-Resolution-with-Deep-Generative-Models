@@ -2,6 +2,7 @@ import argparse
 import io
 import json
 import random
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -11,7 +12,10 @@ from download_data import DIV2K_DIR, FFHQ_DIR
 from render_text import render_text_set
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+sys.path.append(str(PROJECT_ROOT))
+import paths
+
+PROCESSED_DIR = paths.DATA_ROOT / "processed"
 HR_DIR = PROCESSED_DIR / "hr"
 LR_DIR = PROCESSED_DIR / "lr"
 
@@ -34,11 +38,11 @@ def crop_center(image, size=HR_SIZE):
     return image.crop((left, top, left + size, top + size))
 
 
-def split_sources(paths, dev_count, seed):
-    paths = sorted(paths)
+def split_sources(source_paths, dev_count, seed):
+    source_paths = sorted(source_paths)
     generator = random.Random(seed)
-    dev_paths = set(generator.sample(paths, dev_count))
-    return {path: "dev" if path in dev_paths else "test" for path in paths}
+    dev_paths = set(generator.sample(source_paths, dev_count))
+    return {path: "dev" if path in dev_paths else "test" for path in source_paths}
 
 
 def build_objects(seed):
@@ -112,7 +116,26 @@ def check_leakage(manifest):
     return {"shared_sources": len(shared_sources), "shared_texts": len(shared_texts)}
 
 
+def check_config(cfg):
+    expected = {"hr_size": HR_SIZE, "scale": SCALE, "jpeg_qualities": JPEG_QUALITIES, "jpeg_subsampling": JPEG_SUBSAMPLING}
+    for key, value in expected.items():
+        if cfg["data"][key] != value:
+            raise SystemExit(f"config data.{key} = {cfg['data'][key]!r}, but prepare_data.py uses {value!r}")
+
+
+def input_hashes(manifest):
+    """SHA-256 of every ground-truth and low-resolution file; output manifests are keyed by these hashes."""
+    hashes = {}
+    for image_id in manifest["image_id"]:
+        hashes[f"hr/{image_id}.png"] = paths.sha256_file(HR_DIR / f"{image_id}.png")
+        for quality in JPEG_QUALITIES:
+            name = f"lr/jpeg_{quality}/{image_id}.png"
+            hashes[name] = paths.sha256_file(PROCESSED_DIR / name)
+    return hashes
+
+
 def main(seed=42):
+    check_config(paths.load_config())
     HR_DIR.mkdir(parents=True, exist_ok=True)
     for quality in JPEG_QUALITIES:
         (LR_DIR / f"jpeg_{quality}").mkdir(parents=True, exist_ok=True)
@@ -122,6 +145,7 @@ def main(seed=42):
     for image_id in manifest["image_id"]:
         make_low_resolution(image_id)
     manifest.to_csv(PROCESSED_DIR / "manifest.csv", index=False)
+    (PROCESSED_DIR / "inputs_sha256.json").write_text(json.dumps(input_hashes(manifest), indent=1))
 
     counts = manifest.groupby(["content", "split"]).size().unstack().to_dict(orient="index")
     report = {
