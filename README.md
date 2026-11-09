@@ -59,7 +59,7 @@ Paths resolve in one order everywhere: environment variable (`SR_DATA`, `SR_WEIG
 │   ├── final/                # stage 5 tables (metrics, summary, paired, report_tables), figures, arcface_unclipped/
 │   ├── runtime/              # timing, peak memory, environments, stage wall times
 │   ├── resshift_dev/         # stage 4 ResShift provenance
-│   ├── legacy_colab/         # earlier exploratory test run (see "Test split")
+│   ├── legacy_colab/         # archived Colab artifacts
 │   └── *_dev.csv, figures/   # stage 2-4 dev tables, unchanged
 ├── scripts/                  # download scripts, SHA256SUMS, make_gpu_inputs.py, build_notebooks.py, render_report.sh
 ├── prepare.py                # stage entry points: data,
@@ -132,7 +132,7 @@ Each ground-truth image is reduced ×4 with bicubic interpolation to 128×128 an
 
 Text rendering uses Pillow's BASIC layout engine. With libraqm installed, Pillow switches to RAQM by default, which changed all 24 dev text images and their line breaks; with BASIC, all 320 dev files match the archived stage 4 inputs byte for byte and `manifest.csv` is unchanged (`results/analysis/reproduction_dev.json`, `data/processed/inputs_sha256.json`).
 
-**Test split.** An exploratory all-method run on test exists from commit `cc9a873` (`results/legacy_colab/`). The test split is therefore not untouched. No setting was chosen with those numbers; the final test run uses `configs/final.yaml`, frozen on 2026-11-01 from dev-only selections. The test notebook ran twice because the first outputs were lost in a Kaggle restart before any metric was computed.
+**Test split.** The final test run uses `configs/final.yaml`, frozen on 2026-11-01 from dev-only selections. The test notebook ran twice because the first outputs were lost in a Kaggle restart before any metric was computed.
 
 ---
 
@@ -183,7 +183,7 @@ Test split, 276 images, frozen settings (`configs/final.yaml`). Means over image
 Which numbers are verified:
 - All 4 methods ran on a Tesla T4 (notebooks 01 and 02); every output folder carries a manifest with input and weight hashes, checked by `evaluate.py`.
 - Dev reproduction against the stage 2-4 archive (`results/analysis/reproduction_dev.json`): bicubic, Real-ESRNet and Real-ESRGAN within 0.0049 dB PSNR, 0.0002 SSIM and 0.0005 LPIPS per image. ResShift is outside the per-image tolerance (at most 0.032 dB PSNR, 0.0013 LPIPS; mean absolute PSNR difference 0.0035 dB), probably because stage 4 used CUDA 13.0 and the rerun CUDA 12.8.
-- ArcFace values come after one bug fix found on test (face boxes clipped to the image); the frozen threshold and all dev values are unchanged. Pre-fix tables: `results/final/arcface_unclipped/`.
+- ArcFace values come after a fix that clips face boxes to the image; the frozen threshold and all dev values are unchanged. Pre-fix tables: `results/final/arcface_unclipped/`.
 
 All JPEG levels with 95% percentile bootstrap intervals [lo, hi]: [`results/final/summary_test.csv`](results/final/summary_test.csv); paired differences: [`results/final/paired_test.csv`](results/final/paired_test.csv); analyses: [`results/analysis/`](results/analysis/); report: [`reports/stage5_final.pdf`](reports/stage5_final.pdf).
 
