@@ -214,11 +214,11 @@ Runtime on a Tesla T4 (test split, batch size 1, 3 warm-ups; bicubic on the note
 
 ## Team
 
-| Member | Builds | Analyses and presents |
-|---|---|---|
-| Amaliya Kharisova | Dataset download, degradation pipeline, text generator, splits | Text |
-| Dmitrii Kuznetsov | Bicubic, Real-ESRNet, Real-ESRGAN, runtime | Objects & scenes |
-| Iuliia Kurnaeva | ResShift, random-seed experiment | Faces |
-| Alena Petrenko | Metrics, statistics, figures, README & reproducibility | JPEG compression |
+| Member | Contribution |
+|---|---|
+| Amaliya Kharisova | ResShift, random-seed experiments |
+| Dmitrii Kuznetsov | Dataset download, degradation pipeline, splits, Bicubic and Real-ESRNet |
+| Iuliia Kurnaeva | Real-ESRGAN, runtime measurements |
+| Alena Petrenko | Metrics, statistics, figures, README and reproducibility |
 
 Stage reports: [`reports/`](reports/); final report: [`reports/stage5_final.pdf`](reports/stage5_final.pdf). No license file yet: the choice is open.
