@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super-resolution demo</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="static/style.css">
+  <script src="static/app.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1>Super-resolution demo</h1><p>One small image, four ways to make it bigger.</p></div>
+    <div class="corner-note">CV project<br><span>×4 upscaling</span></div>
+  </header>
+
+  <section class="setup" aria-label="Choose an image">
+    <div class="upload-control">
+      <label for="upload-button">Input image</label>
+      <input id="upload" type="file" accept="image/png,image/jpeg,image/webp" class="file-input">
+      <button id="upload-button" type="button">Upload image…</button>
+      <p id="file-name" class="file-name">No image selected</p>
+    </div>
+    <div class="upload-control">
+      <label for="reference-button">HR reference <span class="muted">(optional)</span></label>
+      <input id="reference-file" type="file" accept="image/png,image/jpeg,image/webp" class="file-input">
+      <button id="reference-button" type="button" disabled>Upload reference…</button>
+      <button id="remove-reference" type="button" class="text-button" hidden>Remove</button>
+      <p id="reference-name" class="file-name">Add the matching original for scores</p>
+    </div>
+  </section>
+
+  <p class="context">PNG, JPG or WebP. Use a 128 × 128 input and its matching 512 × 512 reference.</p>
+  <div id="error" class="error" role="alert" hidden></div>
+
+  <section class="methods" aria-label="Upscaling method">
+    <button type="button" data-method="bicubic" disabled><strong>Bicubic</strong><small>Interpolation</small></button>
+    <button type="button" data-method="realesrnet" disabled><strong>Real-ESRNet</strong><small>Reconstruction</small></button>
+    <button type="button" data-method="realesrgan" disabled><strong>Real-ESRGAN</strong><small>GAN</small></button>
+    <button type="button" data-method="resshift" disabled><strong>ResShift</strong><small>Diffusion · 4 steps</small></button>
+  </section>
+
+  <section class="viewer" aria-label="Image comparison">
+    <figure>
+      <figcaption><div class="input-tabs" role="group" aria-label="Left image">
+        <button id="show-input" type="button" aria-pressed="true">Input</button>
+        <button id="show-reference" type="button" aria-pressed="false" disabled>HR reference</button>
+      </div><span id="input-size"></span></figcaption>
+      <div class="canvas-wrap"><canvas id="input-canvas" width="512" height="512" aria-label="Input image preview"></canvas><p id="empty-input" class="empty-state">Upload an image to start.</p></div>
+      <div class="panel-foot"><span id="input-foot">Low-resolution image</span><a id="download-input" download hidden>Save input ↓</a></div>
+    </figure>
+    <figure>
+      <figcaption><strong id="result-title">Result</strong><span id="output-size"></span></figcaption>
+      <div class="canvas-wrap"><canvas id="output-canvas" width="512" height="512" aria-label="Upscaled image preview"></canvas><p id="empty-result" class="empty-state">Choose a method after uploading.</p></div>
+      <div class="panel-foot"><span id="result-foot" role="status" aria-live="polite">No method selected</span><a id="download-result" download hidden>Save PNG ↓</a></div>
+    </figure>
+  </section>
+
+  <section id="measurements" class="measurements" aria-labelledby="scores-title" hidden>
+    <div class="section-title"><h2 id="scores-title">Results for this image</h2></div>
+    <div class="table-scroll"><table>
+      <thead><tr><th scope="col">Method</th><th scope="col">PSNR ↑ <span>dB</span></th><th scope="col">SSIM ↑</th><th scope="col">Inference time</th></tr></thead>
+      <tbody id="scores"></tbody>
+    </table></div>
+    <p id="metric-note" class="small-note"></p>
+  </section>
+
+  <footer>Images stay on this Mac and are removed when the server stops.</footer>
+</main>
+</body>
+</html>

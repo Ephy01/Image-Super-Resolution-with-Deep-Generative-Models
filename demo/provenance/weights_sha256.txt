@@ -1,0 +1,7 @@
+# SHA-256 of the downloaded weights (download_data.py --only weights verifies them).
+# ResShift and autoencoder: identical to results/resshift_dev/settings.json (stage 4 T4 run).
+# RealESRNet / RealESRGAN: official v0.1.1 / v0.1.0 release files, first recorded on 2026-11-01.
+a820b9bde89a874d7599d545567308ce6c128fc8754a53208eda016d40aa81df  RealESRNet_x4plus.pth
+4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1  RealESRGAN_x4plus.pth
+878da888bbbe10b8b0d4ff179c2de3059fd8a4cf2c705942a77a7f3b23ea1efd  resshift_realsrx4_s4_v3.pth
+e967eaa2c380152811c53e312990d6967a8a957c4f7590f19490ec72110b2889  autoencoder_vq_f4.pth

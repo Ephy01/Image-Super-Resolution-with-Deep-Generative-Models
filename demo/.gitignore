@@ -1,0 +1,16 @@
+.venv/
+venv/
+models/
+third_party/
+.diffusion-deps/
+local_config.json
+__pycache__/
+*.py[cod]
+.DS_Store
+.cache/
+cache/
+.pytest_cache/
+*.log
+*.part
+tmp/
+outputs/
